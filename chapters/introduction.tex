@@ -1,0 +1,40 @@
+\chapter{Giới thiệu}
+
+\section{Đặt vấn đề}
+Ngành xây dựng luôn được coi là một trong những ngành ẩn chưa nhiều rủi ro về tai nạn lao động 
+và khả năng mắc các bệnh nghề nghiệp. Trên thực tế nhiều vụ tai nạn nghiêm trọng đã xảy ra, lấy đi 
+sinh mang hoặc để lại những thương tật nặng nề cho người lao động khiến họ mất khả năng làm việc, 
+sinh hoạt như người bình thương. Kéo theo đó là nỗi đau về tinh thần và gánh nặng về kinh tế 
+cho những thành viên trong gia đình người bị nạn. Do đó vấn đề đảm bảo an toàn vệ sinh lao động 
+luôn là một trong những vấn đề được quan tâm hàng đầu trong ngành xây dựng.
+
+Một trong những nguyên nhân chính gây ra những vụ tai nạn thương tâm là việc người lao động không sử 
+dụng trang thiết bị bảo hộ cá nhân trong quá trình lao động. Vấn đề này không chỉ xuất phát từ sự chủ 
+quan của cá nhân người lao động mà còn ở sự thiếu sót, lỏng lẻo trong quá trình giám sát công trình của 
+nhà thầu và người sử dụng lao động. Đối với người lao động, những điều kiện khắc nghiệt của môi trường 
+làm việc như nhiệt độ ngoài trời cao hay thường xuyên phải vận động mạnh khiến đổ mồ hôi liên tục đã khiến họ chấp nhận đánh đổi sự an toàn của bản thân để đổi lấy sự thoải mái. Còn đối với những người giám sát công trình, họ không thể bao quát được toàn bộ quá trình làm việc tại các nơi làm việc khác 
+nhau, do đó không thể nhắc nhở người lao động kịp thời trước khi xảy ra những tai nan mà hậu quả là có thể tránh khỏi hoặc được giảm nhẹ nếu người lao động có sử dụng trang thiết bị bảo hộ cá nhân.
+
+Để tăng cường năng lực thực hiên đảm bảo an toàn vệ sinh lao động ở các công trình, nhiều chủ đầu tư và nhà thầu đã tiến hành lắp đặt các hệ thống camera giám sát quá trình làm việc. Các hệ thống này giúp giám sát viên có thể quan sát nhiều vị trí một lúc mà không cần phải di chuyển qua các đia điểm khác nhau trong công trình, giảm thiểu chi phí và thời gian thực hiên các công tác an toàn. Tuy nhiên, khi số lượng các khu vực cần quan sát tăng lên hoặc những người chịu trách nhiệm quan sát không tập trung vào nhiệm vụ  thì việc giám sát thông qua màn hình dễ xảy ra sai sót. Việc tích hợp công nghê AI vào các hệ thống giám sát sẽ là sẽ tăng thêm độ tin cậy cho công tác đảm bảo an toàn, giảm thiểu những sai sót không đáng có.
+
+\section{Mục tiêu nghiên cứu}
+Mục tiêu của luận văn là xây dựng, đánh giá một hệ thống nhận diện việc sử dụng thiết bị bảo hộ cá nhân của người lao động trong công trường. Khi phát hiện ra các trường hợp không sử dụng các trang thiết bị bảo hộ thì hệ thống sẽ đưa ra cảnh báo.  
+
+\section{Phạm vi nghiên cứu}
+Phạm vi của luận văn là tiến hành nhận dạng trên các video trích xuất từ camera. Mô hình nhận diện được huấn luyện sử dụng framework được xây dựng sẵn. Tập dữ liệu sử dụng để huấn luyện và đánh giá mô hình nhận diện được thu thập và dán nhãn bởi người làm luận văn. Một phần hình ảnh trong tập dữ liệu này có nguồn gốc từ các tập dữ liệu khác nhưng không sử dụng lại các nhãn của các tập dữ liệu đó. Các thiết bị bảo hộ cá nhân được tích hợp trong hệ thống gồm: mũ cứng, áo bảo hộ và khẩu trang.
+
+\section{Phương pháp nghiên cứu}
+Các giai đoạn trong quá trình nghiên cứu và hoàn thiện luận văn:
+\begin{enumerate}
+	\item Tìm hiểu các mô hình nhận diện đang được nghiên cứu và sử dung.
+	\item Chọn mô hình phù hợp, tìm hiểu lý thuyết.
+	\item Xây dựng tập dữ liệu phù hợp cho bài toán đặt ra.
+	\item Huấn luyện mô hình nhận diện.
+	\item Đánh giá các tham số hiệu năng của mô hình nhận diên đã xây dựng.
+	\item Xây dựng hệ thống sử dụng mô hình nhận diện để đưa ra cảnh báo.
+	\item Đánh giá khả năng hoạt động của hệ thống.
+\end{enumerate}
+Trong đó các giai đoạn 3, 4 và 5 được thực hiện luân phiên và nhiều lần để cải thiện hiệu năng của mô hình nhận diện. YOLOv3 được chọn để làm mô hình nhận diện vì đây là một trong số các bộ nhận diện có hiệu năng cao trong thời gian thực, đã được sử dụng và đánh giá trên nhiều tập dữ liệu khác nhau.
+
+\section{Cấu trúc luận văn}
+Luận văn này bao gồm 5 chương. Chương 1 là chương mở đầu, giới thiệu bao quát về vấn đề, mục tiêu, phạm vi và phương pháp nghiên cứu luận văn. Chương 2 sẽ cung cấp những lý thuyết về các khái niệm được sử dụng trong luận văn. Chương 3 cho người đọc biết về cách tập dữ liệu được xây dựng, cách mô hình YOLOv3 được huấn luyện sử dụng framework darknet và cách xây dựng hệ thống sử dụng mô hình nhận diện. Chương 4 sẽ chứa những thông số đánh giá hiệu năng của bộ nhận diện và hệ thống trong các trường hợp khác nhau. Cuối cùng, trong chương 5 sẽ là các nhận xét về các kết quả đạt được và kết luận.

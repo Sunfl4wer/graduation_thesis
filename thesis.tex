@@ -1,0 +1,136 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{acronym}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[useregional]{datetime2}
+\usepackage{sectsty}
+\usepackage{indentfirst}
+\usepackage{bm}
+\chapterfont{\centering}
+
+\newcommand{\argmax}{\arg\!\max}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\}
+{\large TRƯỜNG ĐẠI HỌC BÁCH KHOA\\}
+{\large CHƯƠNG TRÌNH KỸ SƯ CHẤT LƯỢNG CAO VIỆT PHÁP\\}
+{\large KHOA ĐIỆN - ĐIỆN TỬ\\}
+{\large BỘ MÔN VIỄN THÔNG}
+
+\begin{figure}[h]
+  \centerline{\includegraphics[scale=0.1]{images/logo_bk.png}}
+\end{figure}
+
+\vspace{0.3cm}
+
+{\Large LUẬN VĂN TỐT NGHIỆP}
+
+\vspace{0.7cm}
+
+{\LARGE\bfseries HỆ THỐNG GIÁM SÁT VIỆC SỬ DỤNG THIẾT BỊ BẢO HỘ CÁ NHÂN ỨNG DỤNG MẠNG HỌC SÂU}
+
+\vspace{0.7cm}
+
+{\large\bfseries NGUYỄN THÁI SƠN - 1512847}
+
+\vspace{0.7cm}
+
+{\large GIẢNG VIÊN HƯỚNG DẪN:\\}
+{\large\bfseries PGS. TS. HÀ HOÀNG KHA}
+
+\vfill
+
+{\itshape Thành phố Hồ Chí Minh, tháng 6 năm 2020}
+\end{titlepage}
+
+%
+\chapter*{LỜI CẢM ƠN}
+Khoảng thời gian học tập và rèn luyện tại \textbf{Trường Đại học Bách Khoa
+Thành phố Hồ Chí Minh} đã trang bị cho em rất nhiều kiến thức hữu ích và cần thiết
+về chuyên môn và xã hội để em có thể trở thành một công dân tốt và một kỹ sư
+có năng lưc. Con đường học tập ở đại học trong suốt 5 năm vừa qua là không 
+hề dễ dàng với muôn vàn thử thách và khó khăn. Để vượt qua những rào cản ấy, bên 
+cạnh sự cố gắng của bản thân em còn là sự ủng hộ và giúp đỡ tận tình của quý \textbf{Thầy Cô}, 
+\textbf{Gia đình} và \textbf{Bạn bè}. Em xin gửi lời cảm ởn chân thành và sâu sắc nhất 
+đến quý \textbf{Thầy Cô Trường Đại học Bách Khoa Thành phố Hồ Chí Minh}, quý 
+\textbf{Thầy Cô Khoa Điện – Điện Tử}, những người đã đi cùng với tri thức và 
+tâm huyết truyền đạt vốn kiến thức quý báu của mình cho chúng em.
+
+Em muốn giành riêng lời cảm ơn đặc biệt cho Thầy hướng dẫn của mình
+– PGS. TS. Hà Hoàng Kha – người đã luôn tận tình hướng dẫn và giúp đỡ em trong
+quá trình thực hiện luận văn này.
+
+Ngoài ra, em cũng muốn giành cho gia đình và bạn bè lời cảm ơn chân thành và đặc
+biệt là ba mẹ và ông bà em, những người đã luôn là chỗ dựa tinh thần vững chắc 
+cho em trong nhưng thời điểm khó khăn.
+
+Trong quá trình thực hiện luận văn chắc chắn không thể tránh khỏi những sai
+sót, em rất mong nhận được những ý kiến đóng góp quý báu của quý Thầy
+Cô để em có thể học hỏi thêm nhưng điều tốt đẹp và hoàn thiện luận văn của mình.
+Sau cùng, em xin kính chúc quý \textbf{Thầy Cô Trường Đại học Bách Khoa Thành
+phố Hồ Chí Minh} và \textbf{Thầy Hà Hoàng Kha} dồi dào sức khỏe, đạt được nhiều thành
+công trong cuộc sống và luôn giữ vững niềm đam mê nghiên cứu và giảng dạy để có thể
+tiếp tục truyền lửa tri thức cho những thế hệ sau.
+
+\hfill
+Thành phố Hồ Chí Minh, tháng 6 năm 2020
+
+\vspace{0.5cm}
+
+\hfill
+Nguyễn Thái Sơn
+
+\chapter*{TÓM TẮT LUẬN VẶN}
+Ý tưởng về việc kết hợp trí tuệ nhân tạo và thị giác máy tính để ứng dụng vào các bài 
+toán giám sát đã xuất hiện từ lâu. Tuy nhiên chỉ đến những năm gần đây khi các thiết bị
+phần cứng có thể đáp ứng được yêu cầu về tính kĩ thuật và kinh tế thì các ứng dụng 
+sử dụng các công nghệ này mới dần trở nên phổ biến. Một trong những ứng dụng đang rất được 
+quan tâm là đảm bảo an toàn lao động của công nhân xây dựng thông qua một hệ thống giám 
+sát sử dụng camera và trí tuệ nhân tạo để theo dõi việc sử dụng các thiết bị bảo hộ lao 
+động của những người làm việc trong công trường.
+
+Trong khuôn khổ của luận văn này, hệ thống giám sát việc sử dụng thiết bị bảo hộ cá nhân 
+sẽ tập trung vào ba thiết bị thường gặp trong công trường xây dựng: mũ cứng, áo dạ quang 
+bảo hộ và khẩu trang. Hệ thống sử dụng phương pháp phát hiện và phân loại vật thể YOLO, 
+được xây dựng trên cơ sở mạng tích chập - CNN. Khi hoạt động, hệ thống sẽ có thể phát hiện 
+và phân loại việc sử dụng các thiết bị bảo hộ lao động của công nhân ở công trường. Nếu phát 
+hiện một trường hợp không sử dụng thiết bị bảo hộ lao động đang được theo dõi thì hệ thống 
+sẽ gửi cảnh báo cho quan sát viên để kiểm tra và nhắc nhở. Việc này sẽ hỗ trợ rất nhiều trong 
+công tác đảm bảo an toàn lao động trong xây dựng.
+
+Hệ thống được viết bằng ngôn ngữ Python, mô hình máy học YOLOv3 và thư viện thị giác máy tính 
+OpenCV.
+
+%
+\tableofcontents
+
+%
+\listoffigures
+
+\listoftables
+
+\chapter*{Danh sách từ viết tắt}
+\begin{acronym}
+\acro{MRC}{Maximal Ratio Combining}
+\end{acronym}
+
+%
+\input{chapters/introduction}\newpage\cleardoublepage
+\input{chapters/background}\newpage\cleardoublepage
+\input{chapters/method}\newpage\cleardoublepage
+\input{chapters/evaluation}\newpage\cleardoublepage
+\input{chapters/conclusion}\newpage\cleardoublepage
+
+\nocite{*}
+\bibliography{references}\newpage\cleardoublepage
+\bibliographystyle{plain}
+\end{document}
