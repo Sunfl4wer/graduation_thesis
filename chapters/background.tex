@@ -352,7 +352,7 @@ Sau khi kernel đã quét qua hết các điểm ảnh mong muốn thì kết qu
   	\caption{Một lớp tích chập có $k$ kernel với kích thước $3 \times 3 \times 3$, $stride = 1$, $padding = 1$. Đầu vào là một tensor có kích thước $h \times w \times d$ đầu ra của phép tích chập lên tensor này khi khối tích chập có các thông số ở trên là một tensor có kích thước $h \times w \times k$}
   	\label{fig:convol_layer_in_out}
 \end{figure}
-Tổng quát hóa, với một lớp tích chập với $K$ kernel có kích thước $N \times N \times D$ (với D là chiều sâu của đầu vào và là số lẻ), $stride=S$, $padding=D$. Đầu vào là một tensor có kích thước $H \times W \times D$ thì kích thước của tensor đầu ra sẽ là
+Tổng quát hóa, với một lớp tích chập với $K$ kernel có kích thước $N \times N \times D$ (với D là chiều sâu của đầu vào và là số lẻ), $stride=S$, $padding=P$. Đầu vào là một tensor có kích thước $H \times W \times D$ thì kích thước của tensor đầu ra sẽ là
 $\left( 
 	\frac
 		{{H-F+2P}}
@@ -389,20 +389,165 @@ Hình ảnh sau khi qua các lớp tích chập và pooling thì đầu ra sẽ 
   	\caption{Mạng neuron tích chập gồm hai lớp tích chập và pooling, một lớp kết nối đầy đủ.}
   	\label{fig:cnn_simplified}
 \end{figure}
+\section{YOLOv3}
+YOLO - You Only Look Once là một trong những mô hình nhận diện thời gian thực hiện đại nhất và đang được sử dụng cho nhiều bài toán nhận diện, theo dõi khác nhau. Không như những mạng CNN hay R-CNN  trước đây, thay vì sử dung phương pháp dự đoán trên từng miền (tiếng Anh: region proposal method) và cửa sổ trượt (tiếng Anh: sliding window) để phát hiện vật thể trong từng vùng nhỏ trong khung hình và tiến hành phân loại vật thể đó. YOLO sử dụng cả khung hình để nhận diện vật thể, các đặc trưng của vùng nền phía sau (tiếng Anh: background) cũng được dùng trong quá trình huấn luyện. Do vậy YOLO có thể nhận diện vật thể một cách nhanh chóng trong một khung hình với độ chính khác cao chỉ với một lần xử lý, đó cũng là lý do vì sao mô hình này được gọi là Bạn Chỉ Cần Nhìn Một Lần (tiếng Anh: You Only Look Once).
+\subsection{Unified Detection}
+Hình ảnh đầu vào được chia thành một mạng lưới ô vuông (tiếng Anh: grid cell) có kích thước $S \times S$. Nếu như tâm của một vật thể nằm ở tâm của của một ô thì ô đó sẽ chịu trách nhiệm trong việc nhận diện vật thể đó.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.6]{images/grid_cell.png}}
+  	\caption{Hình ảnh được chia thành mạng lưới ô vuông $S \times S$.}
+  	\label{fig:grid_cell}
+\end{figure}
+Mỗi ô sẽ dự đoán $B$ bounding box và độ tin cậy (tiếng Anh: confidence score) của từng bounding box. Gọi $Pr(Object)$ là xác xuất của vật thể nằm trong một ô với $Pr(Object) \in \mathbb{R}, 0 \leq Pr(Object) \leq 1$. $IOU$ - intersection over union là tỷ lệ giữa diện tích miền giao và diện tích miền hợp của bounding box dự đoán được và bounding box được tạo sẵn để huấn luyện (tiếng Anh: ground truth) hình \ref{fig:iou}, $IOU \in \mathbb{R}, 0 \leq IOU \leq 1$.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.6]{images/iou.png}}
+  	\caption{Miêu tả việc tính toán IOU.}
+  	\label{fig:iou}
+\end{figure}
+Độ tin cậy sẽ được định nghĩa bằng $Pr(Object) \times IOU$, nếu như một ô không chứa vật thể thì $Pr(Object)=0$ suy ra độ tin cậy sẽ bằng không, ngược lại nếu một ô chứa vật thể thì $Pr(Object)=1$, lúc này độ tin cậy bằng $IOU$.
+
+Mỗi một bouding box sẽ có năm tham số cần dự đoán: $t_x,t_y,t_w,t_h$ và độ tin cậy. $(t_x,t_y)$ là tọa độ tương đối của tâm bounding box với một ô, nếu gọi offset của một ô trong hình là $(c_x,c_y)$ thì tọa độ của một bounding box so với hình sẽ là $(\sigma \left( t_x \right)+c_x,\sigma \left( t_y \right)+c_y)$. Nếu chiều dài và chiều rộng của bounding box cho trước là $\left( p_w,p_h \right)$ chiều dài và chiều rộng của bounding box được sự đoán sẽ là $\left( p_w \times e^{t_w},p_h \times e^{t_h} \right)$.
+\begin{align*}
+	b_x &= \sigma \left( t_x \right)+c_x\\
+	b_y &= \sigma \left( t_y \right)+c_y\\
+	b_w &= p_w \times e^{t_w}\\
+	b_h &= p_h \times e^{t_h}
+\end{align*}
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.8]{images/bounding_box_prediction.jpg}}
+  	\caption{Mô hình dự đoán bounding box của YOLO.}
+  	\label{fig:bounding_box_prediction}
+\end{figure}
+Trong quá trình huấn luyện, hàm mất mát tổng bình phương sai số được sử dụng cho các tọa độ của bounding box. Với một dự đoán $t_*$ có ground truth là ${\widehat{t}}_*$ thì gradient sẽ là hiệu giữa ground truth và kết quả dự đoán được ${\widehat{t}}_* - t_*$.
+
+YOLOv3 sử dụng hàm hồi quy logistic để dự đoán xem một bounding box có chứa vật thể hay không. Nếu như bounding box dự đoán được giao với ground truth nhiều hơn các bounding box trước đó thì kết quả là $1$. Nếu như một bounding box dự đoán được không phải là trường hợp có diện tích giao lớn nhất với ground truth nhưng vẫn có độ tin cậy lớn hơn một ngưỡng xác quyết thì dự đoán với bounding box này sẽ bị bỏ qua. Ngưỡng xác quyết được dùng là $0.5$. Nếu như một bounding box không được đặt vào một ground truth thì sẽ không có các dự đoán về tọa độ và class mà chỉ có dự đoán về sự tồn tại của vật thể.
+
+Độ tin cậy chính là $IOU$ giữa bounding box dự đoán được và bounding box được tạo sẵn. Đối với những ô được dự đoán có vật thể, mô hình sẽ dự đoán thêm $C$ xác suất của các class mà vật thể đó thuộc về $Pr \left( Class_i | Object \right)$ với $Pr \left( Class_i | Object \right) \in \mathbb{R}, 0 \leq Pr \left( Class_i | Object \right) \leq 1, i=1,..,C$. Mỗi ô sẽ chỉ có một tập các giá trị $Pr \left( Class_i | Object \right)$ mà không liên quan tới số lương bounding box $B$.
+
+Khi tiến hành dự đoán, YOLO sẽ nhân các xác suất và độ tin cậy lại với nhau để được xác suất của một class trên một bounding box. 
+\begin{equation}
+	Pr \left( Class_i | Object \right) \times Pr(Object) \times IOU = Pr \left( Class_i \right) \times IOU
+\end{equation}
+Hàm mất mát được sử dụng khi huấn luyện để dự đoán các class là hàm binary cross-entropy nhằm giúp mô hình có thể dự đoán đa lớp trong cùng một ô.
+
+Sau cùng ta có hàm mất mát tổng của YOLOv3
+\begin{align*}
+	Loss =
+		&\sum_{i=0}^{S^2} 
+		\sum_{j=0}^{B}
+		{\mathfrak{1}}^{obj}_{ij}
+		\left[
+			{
+			\left(
+				{\widehat{t}}_{x_{ij}}
+				-
+				t_{x_{ij}}
+			\right)
+			}^2
+			+
+			{
+			\left(
+				{\widehat{t}}_{y_{ij}}
+				-
+				t_{y_{ij}}
+			\right)
+			}^2
+			+
+			{
+			\left(
+				{\widehat{t}}_{w_{ij}}
+				-
+				t_{w_{ij}}
+			\right)
+			}^2
+			+
+			{
+			\left(
+				{\widehat{t}}_{h_{ij}}
+				-
+				t_{h_{ij}}
+			\right)
+			}^2
+		\right]\\
+		+
+		&\sum_{i=0}^{S^2} 
+		\sum_{j=0}^{B}
+		-
+		\left[
+			{\widehat{p}}_{o_{ij}}
+			\times
+			log	\left(
+					p_{o_{ij}}
+				\right)
+			+
+			\left(
+				1 
+				- 
+				{\widehat{p}}_{o_{ij}}
+			\right)
+			\times
+			log	\left(
+					1
+					-
+					p_{o_{ij}}
+				\right)
+		\right]\\
+		+
+		&\sum_{i=0}^{S^2} 
+		{\mathfrak{1}}^{obj}_{ij}
+		\sum_{k=1}^{C}
+		-
+		\left[
+			{\widehat{p}}_{i} \left( c_k \right)
+			\times
+			log	\left(
+					p_{i} \left( c_k \right)
+				\right)
+			+
+			\left(
+				1 
+				- 
+				{\widehat{p}}_{i} \left( c_k \right)
+			\right)
+			\times
+			log	\left(
+					1
+					-
+					p_{i} \left( c_k \right)
+				\right)
+		\right]
+\end{align*}
+\subsection{Kiến trúc mạng YOLOv3}
+Các đặc trưng từ ảnh được trích xuất theo ba tỷ lệ khác nhau bằng phương pháp giống như phương pháp được sử dụng trong mạng trích xuất đặc trưng dạng kim tự tháp (tiếng Anh: feature pyramid networks). Đầu ra của miền trích xuất đặc trưng là một tensor ba chiều chứa vị trí bounding box, xác suất tồn tại vật thể, xác suất các class, kích thước của tensor là $S \times S \times [3 \times (4 + 1 + C)]$, với $S \times S$ là số ô mà ảnh được chia thành, $4$ là các giá trị dự đoán của bounding box $\left( t_x,t_y,t_w,t_h \right)$, $1$ là giá trị dự đoán sự tồn tại của vật thể trong ô, $C$ là vector các giá trị dự đoán của các class.
+
+Sau đó các ma trận đặc trưng từ hai lớp trước và upsample lên hai lần. Ngoài ra các ma trận đặc trưng từ các lớp đầu cũng được ghép lại với các lớp sau. Việc này giúp mô hình lấy được nhiều thông tin có ý nghĩa từ các ma trận đặc trưng được upsample và vẫn giữ được được những đặc trưng nhỏ hơn từ các lớp đầu. Sau đó một vài lớp tích chập được sử dụng để kết hợp các ma trận đặc trưng và đưa ra tensor sau cùng chứa các dự đoán có kích thước gấp đôi.
+
+Với tỷ lệ cuối, mô hình như ở trên được lặp đi lặp lại nhiều lần, điều này cho phép các bounding box ở tỷ lệ cuối có thể dùng các giá trị đã được tính toán từ các tỷ lệ trước cũng nhưng các đặc trưng có ý nghĩa.
+
+Ban đầu sẽ có chín bounding box: $(10 \times 13),(16 \times 30),(33 \times 23),(30 \times 61),(62 \times 45),(59 \times 119),(116 \times 90),(156 \times 198),(373 \times 326)$. Các bounding box này sẽ được chia vào ba tỷ lệ bằng giải thuật k-means. Các bounding box này sẽ được dùng để dự đoán ở các tỷ lệ tương ứng. Ảnh đầu vào sẽ được downsample với các stride bằng $32$, $16$ và $8$ cho từng tỷ lệ. Nhờ vậy YOLOv3 có thể dự đoán được các vật thể nhỏ rất tốt.
+
+YOLOv3 sử dụng kiến trúc mạng kết hợp giữa YOLOv2, Darknet-19 và mạng residual. Các lớp tích chập có kích thước $3 \times 3$, $1 \times 1$ và có thêm các liên kết tắt (tiếng Anh: short cut). Có tất cả 53 lớp tích chập được dùng nên kiến trúc này được gọi là Darknet-53.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.8]{images/yolov3_architecture.jpg}}
+  	\caption{Kiến trúc mạng Darknet-53.}
+  	\label{fig:bounding_box_prediction}
+\end{figure}
+Kiến trúc này cho khả năng nhận diện tốt hơn Darknet-19 và hiệu năng cao hơn ResNet-101 hoặc ResNet-152 bảng \ref{table:darknet-53_performance}.
 \begin{center}
 
-  \begin{tabular} {l l l l l}
+  \begin{tabular} {l l l l l l}
   \toprule
-  \it Column 1 & \it Column 2 & \it Column 3 & \it Column 4 \\
+  \it Backbone & \it Top-1 & \it Top-5 & \it Bn Ops & \it BFLOP/s & \it FPS \\
   \midrule
 
-  Row 1.1 & Row 1.2 & Row 1.3 & Row 1.4 \\
-  Row 2.1 & Row 2.2 & Row 2.3 & Row 2.4 \\  
+  Darknet-19 & 74.1 & 91.8 & 7.29 & 1246 & \textbf{171} \\
+  ResNet-101 & 77.1 & 93.7 & 19.7 & 1039 & 53 \\
+  ResNet-152 & \textbf{77.6} & \textbf{93.8} & 29.4 & 1090 & 37 \\
+  Darknet-53 & 77.2 & \textbf{93.8} & 18.7 & 1457 & 78 \\
           
   \bottomrule
   \end{tabular}
 
-\captionof{table}{Caption of this table.\label{table:table-template}}
+\captionof{table}{So sánh hiệu năng của Darknet-53 với các mạng khác. Accuracy, Bn Ops - billions of oper-ations, BFLOP/s - billion floating point operations per second, và FPS - frames per second.
+\label{table:darknet-53_performance}}
 \end{center}
-
-Citing to the table above \ref{table:table-template}
