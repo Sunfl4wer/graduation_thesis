@@ -1,2 +1,16 @@
-\chapter{Kết luận}
-In this chapter, ...
+\chapter{Kết luận và hướng phát triển}
+\section{Kết luận}
+Luận văn này đã xây dựng thành công hệ thống giám sát việc sử dụng thiết bị bảo hộ cá nhân trên cơ sở lý thuyết mạng neuron tích chập. Hệ thống sử dụng mô hình YOLOv3 được huấn luyện từ đầu trên tập dữ liệu tự xây dựng với tổng cộng $11586$ hình với nhiều khung cảnh và thời gian khác nhau để đảm bảo mô hình không quá quen thuộc với môt ngữ cảnh nhất định. Mô hình có khả năng dự đoán tương đối tốt với độ chính xác $86\%$ và có thể được ứng dụng trong thực tế với vai trò hỗ trợ việc giám sát sử dụng thiết bị bảo hộ lao động.
+
+Tuy nhiên mô hình vẫn còn một số khuyết điểm cần phải giải quyết:
+\begin{itemize}
+	\item Cần khả năng xử lý lớn để có thể chạy trong thời gian thực trong thực tế đặc biệt là với các hệ thống có nhiều camera.
+	\item Độ chính xác $86\%$ là chưa đủ cao so với ngưỡng chấp nhận $95\%$ để nhưng sản phẩm ứng trí tuệ nhân tạo để có thể dùng được trong thực tế.
+\end{itemize}
+
+\section{Hướng phát triển}
+Vấn đề đảm bảo an toàn lao động luôn nhận được sự chú ý của xã hội, việc cải thiện khả năng giám sát trong các khu vực cần đảm bảo việc trang bị các thiết bị bảo hộ lao động sẽ giúp nâng cao chất lượng môi trường làm việc không chỉ trong ngành xây dựng mà còn các ngành có rủi ro tai nạn cao khác như hầm mỏ, chế tạo sắt,... Để có thể thực sự đáng tin cậy để có thể dùng trong thực tế hệ thống cần phải đảm bảo độ chính xác trên $95\%$. Nhằm đạt được mục tiêu này một số hướng tiếp cận có thể được thực hiện:
+\begin{itemize}
+	\item Tăng số lượng ảnh trong tập dữ liệu với nhiều background khác nhau để mô hình có thể học được nhiều trường hợp đặc biệt hơn.
+	\item Dùng các kiến trúc mạng tích chập mới hơn như YOLOv4 để tăng độ chính xác.
+\end{itemize}

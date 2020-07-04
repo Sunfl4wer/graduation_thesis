@@ -1,0 +1,155 @@
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_1000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 77.46%   	 (TP = 1342, FP = 215) 
+class_id = 1, name = Not wearing a hardhat, ap = 68.10%   	 (TP = 1877, FP = 542) 
+class_id = 2, name = Wearing a safety vest, ap = 57.44%   	 (TP = 346, FP = 121) 
+class_id = 3, name = Not wearing a safety vest, ap = 63.27%   	 (TP = 1614, FP = 300) 
+class_id = 4, name = Wearing a mask, ap = 64.40%   	 (TP = 478, FP = 156) 
+class_id = 5, name = Not wearing a mask, ap = 77.41%   	 (TP = 2393, FP = 564) 
+ for conf_thresh = 0.25, precision = 0.81, recall = 0.55, F1-score = 0.66 
+ for conf_thresh = 0.25, TP = 8050, FP = 1898, FN = 6471, average IoU = 58.30 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.680156, or 68.02 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_2000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 86.25%   	 (TP = 1467, FP = 116) 
+class_id = 1, name = Not wearing a hardhat, ap = 78.74%   	 (TP = 2165, FP = 370) 
+class_id = 2, name = Wearing a safety vest, ap = 66.10%   	 (TP = 332, FP = 69) 
+class_id = 3, name = Not wearing a safety vest, ap = 72.18%   	 (TP = 1627, FP = 144) 
+class_id = 4, name = Wearing a mask, ap = 77.21%   	 (TP = 589, FP = 101) 
+class_id = 5, name = Not wearing a mask, ap = 85.46%   	 (TP = 2459, FP = 318) 
+ for conf_thresh = 0.25, precision = 0.89, recall = 0.59, F1-score = 0.71 
+ for conf_thresh = 0.25, TP = 8639, FP = 1118, FN = 5882, average IoU = 67.09 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.776576, or 77.66 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_3000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 84.02%   	 (TP = 1564, FP = 192) 
+class_id = 1, name = Not wearing a hardhat, ap = 79.28%   	 (TP = 2118, FP = 229) 
+class_id = 2, name = Wearing a safety vest, ap = 75.29%   	 (TP = 419, FP = 36) 
+class_id = 3, name = Not wearing a safety vest, ap = 74.82%   	 (TP = 2329, FP = 379) 
+class_id = 4, name = Wearing a mask, ap = 78.22%   	 (TP = 574, FP = 52) 
+class_id = 5, name = Not wearing a mask, ap = 85.34%   	 (TP = 2565, FP = 332) 
+ for conf_thresh = 0.25, precision = 0.89, recall = 0.66, F1-score = 0.76 
+ for conf_thresh = 0.25, TP = 9569, FP = 1220, FN = 4952, average IoU = 67.40 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.794934, or 79.49 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_4000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 86.92%   	 (TP = 1633, FP = 208) 
+class_id = 1, name = Not wearing a hardhat, ap = 80.28%   	 (TP = 2262, FP = 374) 
+class_id = 2, name = Wearing a safety vest, ap = 78.41%   	 (TP = 430, FP = 50) 
+class_id = 3, name = Not wearing a safety vest, ap = 77.50%   	 (TP = 2218, FP = 266) 
+class_id = 4, name = Wearing a mask, ap = 80.20%   	 (TP = 563, FP = 29) 
+class_id = 5, name = Not wearing a mask, ap = 86.66%   	 (TP = 2662, FP = 411) 
+ for conf_thresh = 0.25, precision = 0.88, recall = 0.67, F1-score = 0.76 
+ for conf_thresh = 0.25, TP = 9768, FP = 1338, FN = 4753, average IoU = 68.19 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.816612, or 81.66 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_5000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 85.06%   	 (TP = 1615, FP = 234) 
+class_id = 1, name = Not wearing a hardhat, ap = 81.10%   	 (TP = 2248, FP = 310) 
+class_id = 2, name = Wearing a safety vest, ap = 78.68%   	 (TP = 384, FP = 29) 
+class_id = 3, name = Not wearing a safety vest, ap = 76.95%   	 (TP = 2301, FP = 345) 
+class_id = 4, name = Wearing a mask, ap = 76.99%   	 (TP = 508, FP = 17) 
+class_id = 5, name = Not wearing a mask, ap = 86.78%   	 (TP = 2758, FP = 484) 
+ for conf_thresh = 0.25, precision = 0.87, recall = 0.68, F1-score = 0.76 
+ for conf_thresh = 0.25, TP = 9814, FP = 1419, FN = 4707, average IoU = 66.78 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.809256, or 80.93 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_6000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 86.98%   	 (TP = 1618, FP = 163) 
+class_id = 1, name = Not wearing a hardhat, ap = 81.10%   	 (TP = 2243, FP = 332) 
+class_id = 2, name = Wearing a safety vest, ap = 77.99%   	 (TP = 374, FP = 24) 
+class_id = 3, name = Not wearing a safety vest, ap = 76.91%   	 (TP = 2443, FP = 456) 
+class_id = 4, name = Wearing a mask, ap = 79.34%   	 (TP = 564, FP = 31) 
+class_id = 5, name = Not wearing a mask, ap = 86.65%   	 (TP = 2668, FP = 425) 
+ for conf_thresh = 0.25, precision = 0.87, recall = 0.68, F1-score = 0.77 
+ for conf_thresh = 0.25, TP = 9910, FP = 1431, FN = 4611, average IoU = 67.52 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.814943, or 81.49 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_7000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 86.20%   	 (TP = 1638, FP = 205) 
+class_id = 1, name = Not wearing a hardhat, ap = 81.61%   	 (TP = 2384, FP = 435) 
+class_id = 2, name = Wearing a safety vest, ap = 72.40%   	 (TP = 365, FP = 56) 
+class_id = 3, name = Not wearing a safety vest, ap = 77.79%   	 (TP = 2529, FP = 488) 
+class_id = 4, name = Wearing a mask, ap = 80.66%   	 (TP = 535, FP = 17) 
+class_id = 5, name = Not wearing a mask, ap = 88.01%   	 (TP = 2758, FP = 413) 
+ for conf_thresh = 0.25, precision = 0.86, recall = 0.70, F1-score = 0.78 
+ for conf_thresh = 0.25, TP = 10209, FP = 1614, FN = 4312, average IoU = 66.92 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.811121, or 81.11 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_8000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 87.76%   	 (TP = 1573, FP = 129) 
+class_id = 1, name = Not wearing a hardhat, ap = 80.94%   	 (TP = 2362, FP = 512) 
+class_id = 2, name = Wearing a safety vest, ap = 77.13%   	 (TP = 519, FP = 89) 
+class_id = 3, name = Not wearing a safety vest, ap = 80.96%   	 (TP = 2549, FP = 293) 
+class_id = 4, name = Wearing a mask, ap = 80.08%   	 (TP = 580, FP = 47) 
+class_id = 5, name = Not wearing a mask, ap = 88.04%   	 (TP = 2734, FP = 384) 
+ for conf_thresh = 0.25, precision = 0.88, recall = 0.71, F1-score = 0.78 
+ for conf_thresh = 0.25, TP = 10317, FP = 1454, FN = 4204, average IoU = 67.92 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.824844, or 82.48 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_9000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 76.33%   	 (TP = 1495, FP = 330) 
+class_id = 1, name = Not wearing a hardhat, ap = 74.84%   	 (TP = 2380, FP = 1050) 
+class_id = 2, name = Wearing a safety vest, ap = 80.04%   	 (TP = 435, FP = 31) 
+class_id = 3, name = Not wearing a safety vest, ap = 77.78%   	 (TP = 2683, FP = 554) 
+class_id = 4, name = Wearing a mask, ap = 77.63%   	 (TP = 519, FP = 40) 
+class_id = 5, name = Not wearing a mask, ap = 86.32%   	 (TP = 2826, FP = 610) 
+ for conf_thresh = 0.25, precision = 0.80, recall = 0.71, F1-score = 0.75 
+ for conf_thresh = 0.25, TP = 10338, FP = 2615, FN = 4183, average IoU = 60.78 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.788236, or 78.82 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_10000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 87.99%   	 (TP = 1752, FP = 283) 
+class_id = 1, name = Not wearing a hardhat, ap = 85.11%   	 (TP = 2461, FP = 287) 
+class_id = 2, name = Wearing a safety vest, ap = 77.78%   	 (TP = 395, FP = 36) 
+class_id = 3, name = Not wearing a safety vest, ap = 78.70%   	 (TP = 2660, FP = 566) 
+class_id = 4, name = Wearing a mask, ap = 80.95%   	 (TP = 596, FP = 69) 
+class_id = 5, name = Not wearing a mask, ap = 88.85%   	 (TP = 2880, FP = 491) 
+ for conf_thresh = 0.25, precision = 0.86, recall = 0.74, F1-score = 0.80 
+ for conf_thresh = 0.25, TP = 10744, FP = 1732, FN = 3777, average IoU = 66.62 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.832291, or 83.23 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_11000.weights...net.optimized_memory = 0  
+class_id = 0, name = Wearing a hardhat, ap = 88.02%   	 (TP = 1642, FP = 175) 
+class_id = 1, name = Not wearing a hardhat, ap = 82.27%   	 (TP = 2376, FP = 390) 
+class_id = 2, name = Wearing a safety vest, ap = 78.96%   	 (TP = 444, FP = 31) 
+class_id = 3, name = Not wearing a safety vest, ap = 80.30%   	 (TP = 2712, FP = 462) 
+class_id = 4, name = Wearing a mask, ap = 78.30%   	 (TP = 497, FP = 23) 
+class_id = 5, name = Not wearing a mask, ap = 87.52%   	 (TP = 2738, FP = 431) 
+ for conf_thresh = 0.25, precision = 0.87, recall = 0.72, F1-score = 0.79 
+ for conf_thresh = 0.25, TP = 10409, FP = 1512, FN = 4112, average IoU = 67.67 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.825616, or 82.56 % 
+
+
+Loading weights from /content/drive/My Drive/weights_hat_vest_mask/yolov3-obj_12000.weights...net.optimized_memory = 0 
+class_id = 0, name = Wearing a hardhat, ap = 87.94%   	 (TP = 1699, FP = 233) 
+class_id = 1, name = Not wearing a hardhat, ap = 81.15%   	 (TP = 2380, FP = 451) 
+class_id = 2, name = Wearing a safety vest, ap = 78.11%   	 (TP = 434, FP = 36) 
+class_id = 3, name = Not wearing a safety vest, ap = 77.86%   	 (TP = 2642, FP = 566) 
+class_id = 4, name = Wearing a mask, ap = 75.56%   	 (TP = 487, FP = 31) 
+class_id = 5, name = Not wearing a mask, ap = 86.44%   	 (TP = 2789, FP = 521) 
+ for conf_thresh = 0.25, precision = 0.85, recall = 0.72, F1-score = 0.78 
+ for conf_thresh = 0.25, TP = 10431, FP = 1838, FN = 4090, average IoU = 65.55 % 
+ IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
+ mean average precision (mAP@0.50) = 0.811770, or 81.18 % 
+

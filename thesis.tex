@@ -14,8 +14,23 @@
 \usepackage{bm}
 \usepackage{spverbatim}
 \chapterfont{\centering}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tocloft}
 
+\tocloftpagestyle{empty}
+\lhead{\textit{Luận văn tốt nghiệp}}
+\chead{}
+\rhead{\textit{SVTH: Nguyễn Thái Sơn}}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\pagestyle{empty}
 \newcommand{\argmax}{\arg\!\max}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\newcommand{\fontnormal}{\fontsize{8pt}{12pt}\selectfont}
 
 \begin{document}
 
@@ -53,8 +68,89 @@
 {\itshape Thành phố Hồ Chí Minh, tháng 6 năm 2020}
 \end{titlepage}
 
+\newpage
+{
+\fontsize{10pt}{12pt}\selectfont
+\begin{multicols}{2}
+	\begin{center}
+		\fontnormal
+		ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH\\
+		TRƯỜNG ĐẠI HỌC BÁCH KHOA\\
+		-----\\
+		Số: \_\_\_\_\_\_/BKĐT\\
+		Khoa: \textbf{Điện - Điện tử}\\
+		Bộ môn: \textbf{Viễn Thông}\\
+	\end{center}
+	\columnbreak
+	\begin{center}
+		\fontnormal
+		CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIÊT NAM\\
+		Độc lập - Tự do - Hạnh phúc\\
+		-----\\
+	\end{center}
+\end{multicols}
+
+\begin{center}
+{\large \textbf{NHIỆM VỤ LUẬN VĂN TỐT NGHIỆP} \par}
+\end{center}
+
+\noindent 
+1. HỌ VÀ TÊN: NGUYỄN THÁI SƠN \hfill MSSV:1512847\\
+2. NGÀNH: VIỄN THÔNG \hfill LỚP: VP15VT\\
+3. Đề tài: \textbf{HỆ THỐNG GIÁM SÁT VIỆC SỬ DỤNG THIẾT BỊ BẢO HỘ CÁ NHÂN ỨNG DỤNG MẠNG HỌC SÂU}\\
+4. Nhiệm vụ (Yêu cầu về nội dung và số liệu ban đầu):
+\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+	\item Tìm hiểu các mô hình nhận diện đang được nghiên cứu và sử dung.
+	\item Tìm hiều về CNN và YOLOv3
+	\item Xây dựng tập dữ liệu phù hợp cho bài toán đặt ra.
+	\item Xây dựng mô hình nhận diện.
+	\item Đánh giá, kết luận và viết luận văn.
+\end{itemize}
+5. Ngày giao nhiệm vụ luận văn:\dotfill\\
+6. Ngày hoàn thành nhiện vụ:\dotfill
+\linespread{0.0}\vspace{-0.7em}
+\begin{multicols}{2}
+	\noindent
+	7. Họ và tên người hướng dẫn:
+	\begin{center}
+	\dotfill \textbf{PGS. TS. Hà Hoàng Kha} \dotfill\\
+	\dotfill \\
+	\end{center}
+	\columnbreak
+	\begin{center}
+	Phần hướng dẫn\\
+	\dotfill Toàn phần \dotfill\\
+	\dotfill \\
+	\end{center}
+\linespread{0.0}\vspace{-0.7em}
+\end{multicols}
+\noindent
+Nội dung và yêu cầu LVTN đã được thông qua Bộ Môn.\\
+\textit{Tp.HCM, ngày ... tháng ... năm 2020}
+\begin{multicols}{2}
+	\begin{center}
+		CHỦ NHIỆM BỘ MÔN
+	\end{center}
+	\columnbreak
+	\begin{center}
+		NGƯỜI HƯỚNG DẪN CHÍNH
+	\end{center}
+\end{multicols}
+\vfill
+\noindent
+\textbf{PHẦN DÀNH CHO KHOA, BỘ MÔN}\\
+Người duyệt (chấm sơ bộ):..............\\
+Đơn vị:................................\\
+Ngày bảo vệ:...........................\\
+Điểm tổng kết:.........................\\
+Nơi lưu trữ luận văn:..................
+}
+\newpage
+
 %
-\chapter*{LỜI CẢM ƠN}
+\begin{center}
+{\LARGE\bfseries LỜI CẢM ƠN}
+\end{center}
 Khoảng thời gian học tập và rèn luyện tại \textbf{Trường Đại học Bách Khoa
 Thành phố Hồ Chí Minh} đã trang bị cho em rất nhiều kiến thức hữu ích và cần thiết
 về chuyên môn và xã hội để em có thể trở thành một công dân tốt và một kỹ sư
@@ -90,7 +186,12 @@ Thành phố Hồ Chí Minh, tháng 6 năm 2020
 \hfill
 Nguyễn Thái Sơn
 
-\chapter*{TÓM TẮT LUẬN VẶN}
+\newpage
+%
+\pagestyle{empty}
+\begin{center}
+{\LARGE\bfseries TÓM TẮT LUẬN VĂN}
+\end{center}
 Ý tưởng về việc kết hợp trí tuệ nhân tạo và thị giác máy tính để ứng dụng vào các bài 
 toán giám sát đã xuất hiện từ lâu. Tuy nhiên chỉ đến những năm gần đây khi các thiết bị
 phần cứng có thể đáp ứng được yêu cầu về tính kĩ thuật và kinh tế thì các ứng dụng 
@@ -111,20 +212,20 @@ công tác đảm bảo an toàn lao động trong xây dựng.
 Hệ thống được viết bằng ngôn ngữ Python, mô hình máy học YOLOv3 và thư viện thị giác máy tính 
 OpenCV.
 
-%
+\clearpage    
+{
+\pagestyle{empty}
 \tableofcontents
-
-%
+\clearpage
 \listoffigures
-
+\clearpage
 \listoftables
-
-\chapter*{Danh sách từ viết tắt}
-\begin{acronym}
-\acro{MRC}{Maximal Ratio Combining}
-\end{acronym}
+\clearpage
+}
 
 %
+{
+\pagestyle{fancy}
 \input{chapters/introduction}\newpage\cleardoublepage
 \input{chapters/background}\newpage\cleardoublepage
 \input{chapters/method}\newpage\cleardoublepage
@@ -134,4 +235,5 @@ OpenCV.
 \nocite{*}
 \bibliography{references}\newpage\cleardoublepage
 \bibliographystyle{plain}
+}
 \end{document}

@@ -67,16 +67,16 @@ Mô hình YOLOv3 trong luận văn này được huấn luyện trên $Google Co
 	\item Tải framework Darknet từ github repository của \href{https://github.com/AlexeyAB/darknet}{AlexeyAB}.
 	
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
         https://github.com/AlexeyAB/darknet
     }
 }
 
 	Sau đó ta chọn Clone $\rightarrow$ Download ZIP và tiến hành tải thư mục về, sau khi tải xong ta tiến hành giải nén vào một thư mục mà ta tạo sẵn.
-	\item Ta chép tệp tin \emph{yolov3.cfg} trong thư mục \emph{cfg} ra thư mục làm việc hiện tại và chỉnh sửa như sau. Đầu tiên ta sẽ sửa các giá trị \emph{batch} là số hình trong một mini-batch mà ta muốn dùng để huấn luyện, \emph{subdivision} là thông số để chia nhỏ một mini-batch để đảm bảo mô hình có thể chạy trên các tài nguyên GPU khác nhau, \emph{width} và \emph{height} là chiều rộng và chiều cao của ảnh đầu vào, các ảnh có kích thước khác nhau sẽ được resize lại kích thước này trước khi được đưa vào để huấn luyện. \emph{max{\_}batches} là tổng số batch mà mô hình sẽ chạy qua, đây còn được gọi là số \emph{iteration}. \emph{steps} sẽ có giá trị lần lượt băng $80\%$ và $90\%$ của \emph{max{\_}batches}.
+	\item Ta chép tệp tin \emph{yolov3.cfg} trong thư mục \emph{cfg} ra thư mục làm việc \emph{darknet} và chỉnh sửa như sau. Đầu tiên ta sẽ sửa các giá trị \emph{batch} là số hình trong một mini-batch mà ta muốn dùng để huấn luyện, \emph{subdivision} là thông số để chia nhỏ một mini-batch để đảm bảo mô hình có thể chạy trên các tài nguyên GPU khác nhau, \emph{width} và \emph{height} là chiều rộng và chiều cao của ảnh đầu vào, các ảnh có kích thước khác nhau sẽ được resize lại kích thước này trước khi được đưa vào để huấn luyện. \emph{max{\_}batches} là tổng số batch mà mô hình sẽ chạy qua, đây còn được gọi là số \emph{iteration}. \emph{steps} sẽ có giá trị lần lượt băng $80\%$ và $90\%$ của \emph{max{\_}batches}.
 
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
         \texttt{\#} [net]\\
 		\texttt{\#} Testing\\
 		\texttt{\#} batch=1\\
@@ -106,7 +106,7 @@ Mô hình YOLOv3 trong luận văn này được huấn luyện trên $Google Co
 Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằng sáu, chính là số class của bài toán. Đồng thời ta sẽ sửa số $filters$ của lớp convolution ngay phía trên theo công thức $3 \times (5+C)$ với $C$ là số class, khi $C=6$ ta có $filters=33$.
 
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
 		[convolutional]\\
 		size=1\\
 		stride=1\\
@@ -116,7 +116,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 \\
 		\text{[yolo]}\\
 		mask = $0,1,2$\\
-		anchors = $10,13,16,30,33,23,30,61,62,45,59,119,116,90,156,198,373,326$\\
+		anchors = $10,13,16,30,33,23,30,61,62,45,59,119,116,90,156$ \\ $,198,373,326$\\
 		classes=6\\
 		num=9\\
 		jitter=.3\\
@@ -129,7 +129,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	\item Sửa các thông số ở đầu của tệp \emph{Makefile} như sau.
 
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
 		GPU=1\\
 		CUDNN=0\\
 		CUDNN{\_}HALF=0\\
@@ -145,7 +145,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	\item Tạo tệp có tên $obj.names$ chứa tên các class.
 
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
 		Wearing a hardhat\\
 		Not wearing a hardhat\\
 		Wearing a safety vest\\
@@ -155,40 +155,43 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	}
 }
 
-	\item Tạo hai tệp text, $train.txt$ và $val.txt$ chứa đường dẫn đến các hình ảnh. $train.txt$ sẽ được dùng để huấn luyện còn $val.txt$ sẽ được dùng để validate mô hình trong quá trình huấn luyện. Việc chia tập dữ liệu được thực hiện ngẫu nhiên. Có $900$ hình được dùng để validate và $10686$ hình được dùng để huấn luyện. Việc chia này được thực hiện bằng một chương trình Python.
+	\item Sao chép tập dữ liệu gồm hình ảnh và tệp tin dán nhãn vào đường dẫn \emph{./data/objects}
+
+	\item Tạo hai tệp text, \emph{train.txt} và \emph{val.txt} chứa đường dẫn đến các hình ảnh. \emph{train.txt} sẽ được dùng để huấn luyện còn \emph{val.txt} sẽ được dùng để validate mô hình trong quá trình huấn luyện. Việc chia tập dữ liệu được thực hiện ngẫu nhiên. Có $900$ hình được dùng để validate và $10686$ hình được dùng để huấn luyện. Việc chia này được thực hiện bằng một chương trình Python.
 
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
 		import os\\
 		import glob\\
 		import cv2\\
 		import random\\
 \\
-		basenames = \text{[os.path.basename(x) for x in glob.glob(".$/$data$/$objects$/$*.jpg")]}\\
+		basenames = \text{[os.path.basename(x) for x in \\
+		\tab glob.glob(".$/$data$/$objects$/$*.jpg")]}\\
 		basenamesNotEmpty = []\\
 
 		for name in basenames:\\
-		    if "empty" not in name:\\
-		    basenamesNotEmpty.append(name)\\
+		    \tab if "empty" not in name:\\
+		    \tab \tab basenamesNotEmpty.append(name)\\
 
 		train = random.sample(basenames, len(basenames))\\
 		valid = random.sample(basenamesNotEmpty, 900)\\
 
 		with open(".$/$val.txt","w") as f:\\
-    		for name in valid:\\
-        		f.write("data$/$objects$/$"+name+"$\backslash$n")\\
+    		\tab for name in valid:\\
+        		\tab \tab f.write("data$/$objects$/$"+name+"$\backslash$n")\\
         
 		with open(".$/$train.txt","w") as f:\\
-			for name in train:\\
-	        	if name not in valid:\\
-		        f.write("data$/$objects$/$"+name+"$\backslash$n")\\
+			\tab for name in train:\\
+	        	\tab if name not in valid:\\
+		        \tab \tab f.write("data$/$objects$/$"+name+"$\backslash$n")\\
 	}
 }
 
 	\item Tạo tệp có tên $obj.data$ chứa tên các class.
 
 \noindent\fbox{
-    \parbox{\textwidth}{
+    \parbox{350pt}{
 		classes = 6\\
 		train = train.txt\\
 		valid = val.txt\\
@@ -196,4 +199,341 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 		backup = backup/\\
 	}
 }
+
+	\item Vào đường dẫn này để tải tệp tin trọng số cho các lớp tích chập được huấn luyên từ mạng Imagenet. Sau đó sao chép tệp tin vừa tải về vào thư mục \emph{darknet}
+	
+\noindent\fbox{
+    \parbox{350pt}{
+	https://pjreddie.com/media/files/darknet53.conv.74
+	}
+}	
+	
+	\item Nén thư mục làm việc lại thành một tệp tin \emph{zip}, tạo một thư mục tên \emph{Darknet} trên \emph{Google Drive} và upload tệp tin đã nén vào thư mục này. Đồng thời tạo một thư mục con có tên \emph{backup} trong \emph{Darknet}.
+	
+	\item Trong \emph{Google Colab}, chọn \emph{Runtime} $\rightarrow$ \emph{Change runtime type} $\rightarrow$ \emph{Hardware accelerator} $\rightarrow$ \emph{GPU}, chạy đoạn code sau để \emph{build Darknet}.
+
+\noindent\fbox{
+    \parbox{350pt}{
+	from google.colab import drive\\
+	drive.mount('/content/drive')\\
+	{\%}cd /content\\
+	!unzip /content/drive/'My Drive'/Darknet/darknet.zip\\
+	{\%}cd /content/darknet\\
+	!sudo apt-get install dos2unix\\
+	!make\\
+	!chmod +x ./darknet\\
+	!rm /content/darknet/backup -r\\
+	!ln -s /content/drive/'My Drive'/Darknet/backup /content/darknet\\
+	{\%}cd /content/darknet\\
+	!find . -type f -name "*.txt" -print0 | xargs -0 dos2unix\\
+	}
+}
+
+	\item Đối với lần đầu tiên ta sẽ chạy dòng lệnh sau.
+	
+\noindent\fbox{
+    \parbox{350pt}{
+	!./darknet detector train obj.data yolov3.cfg darknet53.conv.74
+	}
+}	
+	Đối với các lần huấn luyện sau ta chỉ cần dùng tệp tin \emph{yolov3{\_}last.weights} để huấn luyện tiếp mà không cần huấn luyện lại từ đầu.
+	
+\noindent\fbox{
+    \parbox{350pt}{
+	!./darknet detector train obj.data yolov3.cfg ./backup/yolov3{\_}last.weights
+	}
+}
+
+	\item \emph{Darknet} sẽ tự động lưu các tệp tin trọng số mỗi $1000$ \emph{iteration} ví dụ: \emph{yolov3{\_}1000.weights}, \emph{yolov3{\_}2000.weights}. Ta có thể dừng việc huấn luyện để kiểm tra các tham số hiệu năng của mô hình như \emph{precision} và \emph{recall}. Việc kiểm tra này được thực hiện trên tập dữ liệu validate trong tệp \emph{val.txt}. Để thực hiện việc kiểm tra này ta sẽ chạy dòng lệnh sau.
+	
+\noindent\fbox{
+    \parbox{350pt}{
+	!./darknet detector map obj.data yolov3.cfg ./backup/yolov3{\_}1000.weights
+	}
+}
+
+	Ta có thể thay \emph{yolov3{\_}1000.weights} bằng tệp tin trọng số mà ta muốn kiểm tra.
+\end{enumerate}
+
+\section{Sử dụng mô hình YOLOv3 để nhận diện trên camera hoặc video}
+
+Sau khi việc huấn luyên đã hoàn thành, ta sẽ dùng tệp tin trọng số để tiến hành nhận diện trên video hoặc camera. Để làm được điều này ta sẽ viết một chương trình Python có sơ đồ khối như hình \ref{fig:flow_chart}.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.6]{images/flow_chart.png}}
+  	\caption{Sơ đồ khối chương trình Python để nhận dạng trên video hoặc webcam.}
+  	\label{fig:flow_chart}
+\end{figure}
+
+\begin{enumerate}
+	\item Chương trình sẽ lấy tên các class được đinh nghĩa sẵn trong tệp tin \emph{obj.names}, đồng thời sẽ đọc các giá trị trọng số của mô hình trong tệp tin \emph{yolov3.weights} dựa trên các thông số về kiến trúc đã cài đặt trong tệp tin \emph{yolov3Config.cfg}. Hàm để đọc mô hình DNN trong OpenCV là \emph{cv2.dnn.readNet(weightsFile, configFile)} với \emph{weightsFile} là tệp tin trọng số và \emph{configFile} là tệp tin kiến trúc của mạng.
+	
+	\item Sau đó ta sẽ dùng hàm đọc video của OpenCV để đọc dữ liệu từ webcam. Đầu tiên ta sẽ khởi tạo một đối tượng đại diện cho webcam \emph{cap = VideoCapture(0)}. Sau đó ta sẽ đọc từng frame từ đối tượng vừa được khởi tạo \emph{ret, image = cap.read()} với \emph{image} là biến chứa một frame, \emph{ret} sẽ có giá trị \emph{True} nếu có frame được đọc từ đầu vào và \emph{False} nếu không có frame được đọc từ đầu vào.
+	
+	\item Để tiến hành nhận dạng trên hình, ta sẽ dùng các câu lện sau.
+
+\noindent\fbox{
+    \parbox{350pt}{
+    blob = cv2.dnn.blobFromImage(image, scale, (604, 604), (0, 0, 0), \\ \tab True, crop=False)\\
+	net.setInput(blob)\\
+    outs = net.forward(get{\_}output{\_}layers(net))\\
+	}
+}
+
+	Dòng lênh đầu tiên sẽ resize hình về kích thước $(604, 604)$, sau đó từng pixel trong hình sẽ được trừ cho $(0, 0, 0)$ và chia cho \emph{scale}. \emph{swapRB=True} sẽ hoán đổi vị trí hai kênh đỏ và xanh dương trong tensor của hình. \emph{crop=False} sẽ không crop hình sau khi resize. Giả sử kênh màu đỏ của hình sau khi được resize có giá trị là $R$, \emph{scale}$=\sigma$, giá trị để trừ là ${\mu}_{red}$, giá trị của kênh màu đỏ sau khi đi qua hàm \emph{blob} sẽ là
+\begin{equation}
+	\frac{R-{\mu}_{red}}{\sigma}
+\end{equation} 
+	Kết quả của hàm \emph{blob} sẽ được đưa vào đối tượng \emph{net} và đầu ra sẽ là kết quả của quá trình feed forward.
+	
+	\item Tuy nhiên tại đầu ra \emph{outs} sẽ có rất nhiều bounding box bị trùng lặp do với cũng một vật thể và class. Do đó kết quả đầu ra cần phải đi qua giải thuật non-maximum suppression để có thể lấy một bounding box riêng biệt và duy nhất cho một vật thể.
+	
+	Về cơ bản giải thuật non-maximum suppression hoạt động như sau.
+	\begin{enumerate}
+		\item Bắt đầu giải thuật có sẽ có hai mảng một chiều A và B với mảng A chứa các bounding box cần xử lý, mảng B rỗng.
+		\item Lấy bounding box có giá trị \emph{confidence} lớn nhất trong A và đưa vào B và loại bounding box này ra khỏi A.
+		\item Với mọi bounding box còn lại trong A, tìm IOU với bounding box vừa đưa vào B. Nếu IOU lớn hơn ngưỡng \emph{nmsThreshold} thì loại bounding đang xét ra khỏi A.
+		\item Lặp lại bước (b) và (c) cho đến khi không còn bounding box nào trong A.
+	\end{enumerate}
+
+\noindent\fbox{
+    \parbox{350pt}{
+	indices = cv2.dnn.NMSBoxes(boxes, confidences, confThreshold, nmsThreshold)
+	}
+}
+
+	\item Cuối cùng, ta sẽ vẽ các bounding box vào frame và xuất ra màn hình.
+
+\noindent\fbox{
+    \parbox{350pt}{
+    for i in indices:\\
+    \tab i = i[0]\\
+    \tab box = boxes[i]\\
+    \tab x = box[0]\\
+    \tab y = box[1]\\
+    \tab w = box[2]\\
+    \tab h = box[3]\\
+    \tab image = draw{\_}prediction(image, class{\_}ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h))\\
+\\
+    cv2.imshow("test", image)
+	}
+}
+
+Chương trình Python để sau cùng để nhận diện trên webcam.
+
+\noindent\fbox{
+    \parbox{350pt}{
+from PIL import Image
+\\import time
+\\import cv2
+\\import argparse
+\\import numpy as np
+\\
+\\def get{\_}output{\_}layers(net):
+\\\tab layer{\_}names = net.getLayerNames()
+\\
+\\\tab output{\_}layers = [layer{\_}names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+\\
+\\\tab return output{\_}layers
+\\
+\\
+\\def draw{\_}prediction(img, class{\_}id, confidence, x, y, x{\_}plus{\_}w, y{\_}plus{\_}h):
+\\\tab label = str(classes[class{\_}id])
+\\
+\\\tab if class{\_}id == 5 or class{\_}id == 3 or class{\_}id == 1:
+\\\tab \tab color = [0,0,255]
+\\\tab else:
+\\\tab \tab color = COLORS[class{\_}id]
+\\\tab 
+\\\tab cv2.rectangle(img, (x, y), (x{\_}plus{\_}w, y{\_}plus{\_}h), color, 2)
+\\
+\\\tab if class{\_}id == 5 or class{\_}id == 4:
+\\\tab \tab cv2.putText(img, label, (x - 10, y - 35), cv2.FONT{\_}HERSHEY{\_}SIMPLEX, 1, color, 1)
+\\\tab else:
+\\\tab \tab cv2.putText(img, label, (x - 10, y - 10), cv2.FONT{\_}HERSHEY{\_}SIMPLEX, 1, color, 1)
+\\
+\\\tab return img
+	}
+}
+
+\noindent\fbox{
+    \parbox{355pt}{
+def eudistance(v1, v2):
+\\\tab dist = [(a - b)**2 for a, b in zip(v1, v2)]
+\\\tab dist = math.sqrt(sum(dist))
+\\\tab return dist
+\\
+\\{\#} Create a VideoCapture object
+\\cap = cv2.VideoCapture(0)
+\\
+\\{\#} Check if camera opened successfully
+\\if (cap.isOpened() == False): 
+\\\tab print("Unable to read camera feed")
+\\
+\\{\#} Default resolutions of the frame are obtained.The default resolutions are system dependent.
+\\{\#} We convert the resolutions from float to integer.
+\\frame{\_}width = int(cap.get(3))
+\\frame{\_}height = int(cap.get(4))
+\\
+\\classes = []
+\\with open("obj.names", 'r') as f:
+\\\tab classes = [line.strip() for line in f.readlines()]
+\\
+\\COLORS=[[0,128,0],[255,0,0],[255,165,0],[0,0,255],[255,255,0],[255,69,0]]
+\\
+\\
+\\net = cv2.dnn.readNet("yolov3-tiny{\_}12000.weights", "yolov3-tiny.cfg")
+\\
+\\conf{\_}threshold = 0.2
+\\nms{\_}threshold = 0.4
+\\
+\\
+\\Width = frame{\_}width
+\\Height = frame{\_}height
+\\scale = 0.00392
+	}
+}
+
+\noindent\fbox{
+    \parbox{350pt}{
+start = time.time()
+\\count = 0
+\\while(True):
+\\\tab ret, image = cap.read()
+\\
+\\\tab if ret == True: 
+\\\tab \tab if count % 3 == 0:
+\\\tab \tab \tab blob = cv2.dnn.blobFromImage(image, scale, (604, 604), (0, 0, 0), True, crop=False)
+\\
+\\\tab \tab \tab net.setInput(blob)
+\\
+\\\tab \tab \tab outs = net.forward(get{\_}output{\_}layers(net))
+\\\tab \tab \tab 
+\\\tab \tab \tab class{\_}ids = []
+\\\tab \tab \tab confidences = []
+\\\tab \tab \tab boxes = []
+\\\tab \tab \tab class{\_}ids{\_}mask = []
+\\\tab \tab \tab confidences{\_}mask = []
+\\\tab \tab \tab boxes{\_}mask = []
+\\\tab \tab \tab class{\_}ids{\_}hat = []
+\\\tab \tab \tab confidences{\_}hat = []
+\\\tab \tab \tab boxes{\_}hat = []
+\\
+\\\tab \tab \tab for out in outs:
+\\\tab \tab \tab \tab for detection in out:
+\\\tab \tab \tab \tab \tab scores = detection[5:]
+\\\tab \tab \tab \tab \tab class{\_}id = np.argmax(scores)
+\\\tab \tab \tab \tab \tab confidence = scores[class{\_}id]
+\\\tab \tab \tab \tab \tab if class{\_}id == 0 or class{\_}id == 1 or class{\_}id == 4 or class{\_}id == 5:
+\\\tab \tab \tab \tab \tab \tab mask{\_}id = 0
+\\\tab \tab \tab \tab \tab \tab hat{\_}id = 0
+\\\tab \tab \tab \tab \tab \tab 
+\\\tab \tab \tab \tab \tab \tab if float(scores[0]) > float(scores[1]):
+\\\tab \tab \tab \tab \tab \tab \tab hat{\_}id = 0
+\\\tab \tab \tab \tab \tab \tab else:
+\\\tab \tab \tab \tab \tab \tab \tab hat{\_}id = 1
+	}
+}
+
+\noindent\fbox{
+    \parbox{350pt}{
+\tab \tab \tab \tab \tab \tab if float(scores[4]) > float(scores[5]):
+\\\tab \tab \tab \tab \tab \tab \tab mask{\_}id = 4
+\\\tab \tab \tab \tab \tab \tab else:
+\\\tab \tab \tab \tab \tab \tab \tab mask{\_}id = 5
+\\\tab \tab \tab \tab \tab \tab 
+\\\tab \tab \tab \tab \tab \tab if confidence > 0.25:
+\\\tab \tab \tab \tab \tab \tab \tab center{\_}x = int(detection[0] * Width)
+\\\tab \tab \tab \tab \tab \tab \tab center{\_}y = int(detection[1] * Height)
+\\\tab \tab \tab \tab \tab \tab \tab w = int(detection[2] * Width)
+\\\tab \tab \tab \tab \tab \tab \tab h = int(detection[3] * Height)
+\\\tab \tab \tab \tab \tab \tab \tab x = center{\_}x - w / 2
+\\\tab \tab \tab \tab \tab \tab \tab y = center{\_}y - h / 2
+\\\tab \tab \tab \tab \tab \tab \tab 
+\\\tab \tab \tab \tab \tab \tab \tab class{\_}ids{\_}mask.append(mask{\_}id)
+\\\tab \tab \tab \tab \tab \tab \tab confidences{\_}mask.append(float(scores[hat{\_}id]))
+\\\tab \tab \tab \tab \tab \tab \tab boxes{\_}mask.append([x, y, w, h])
+\\\tab \tab \tab \tab \tab \tab \tab 
+\\\tab \tab \tab \tab \tab \tab \tab class{\_}ids{\_}hat.append(hat{\_}id)
+\\\tab \tab \tab \tab \tab \tab \tab confidences{\_}hat.append(float(scores[hat{\_}id]))
+\\\tab \tab \tab \tab \tab \tab \tab boxes{\_}hat.append([x, y, w, h])
+\\
+\\\tab \tab \tab \tab \tab else:
+\\\tab \tab \tab \tab \tab \tab if confidence > 0.25:
+\\\tab \tab \tab \tab \tab \tab \tab center{\_}x = int(detection[0] * Width)
+\\\tab \tab \tab \tab \tab \tab \tab center{\_}y = int(detection[1] * Height)
+\\\tab \tab \tab \tab \tab \tab \tab w = int(detection[2] * Width)
+\\\tab \tab \tab \tab \tab \tab \tab h = int(detection[3] * Height)
+\\\tab \tab \tab \tab \tab \tab \tab x = center{\_}x - w / 2
+\\\tab \tab \tab \tab \tab \tab \tab y = center{\_}y - h / 2
+\\\tab \tab \tab \tab \tab \tab \tab class{\_}ids.append(class{\_}id)
+\\\tab \tab \tab \tab \tab \tab \tab confidences.append(float(scores[class{\_}id]))
+\\\tab \tab \tab \tab \tab \tab \tab boxes.append([x, y, w, h])
+\\
+\\\tab \tab \tab indices = cv2.dnn.NMSBoxes(boxes, confidences, conf{\_}threshold, nms{\_}threshold)
+\\\tab \tab \tab indices{\_}mask = cv2.dnn.NMSBoxes(boxes{\_}mask, confidences{\_}mask, conf{\_}threshold, nms{\_}threshold)
+	}
+}
+
+\noindent\fbox{
+    \parbox{350pt}{
+\tab \tab \tab indices{\_}hat = cv2.dnn.NMSBoxes(boxes{\_}hat, confidences{\_}hat, conf{\_}threshold, nms{\_}threshold)
+\\\tab \tab 
+\\\tab \tab for i in indices:
+\\\tab \tab \tab i = i[0]
+\\\tab \tab \tab box = boxes[i]
+\\\tab \tab \tab x = box[0]
+\\\tab \tab \tab y = box[1]
+\\\tab \tab \tab w = box[2]
+\\\tab \tab \tab h = box[3]
+\\\tab \tab \tab image = draw{\_}prediction(image, class{\_}ids[i], confidences[i], round(x), round(y), round(x + w), round(y + h))
+\\
+\\\tab \tab for i in indices{\_}mask:
+\\\tab \tab \tab i = i[0]
+\\\tab \tab \tab if class{\_}ids{\_}mask[i] == 5:
+\\\tab \tab \tab \tab noMask = True
+\\\tab \tab \tab else:
+\\\tab \tab \tab \tab noMask = False
+\\\tab \tab \tab box = boxes{\_}mask[i]
+\\\tab \tab \tab x = box[0]
+\\\tab \tab \tab y = box[1]
+\\\tab \tab \tab w = box[2]
+\\\tab \tab \tab h = box[3]
+\\\tab \tab \tab image = draw{\_}prediction(image, class{\_}ids{\_}mask[i], confidences{\_}mask[i], round(x), round(y), round(x + w), round(y + h))
+	}
+}
+
+\noindent\fbox{
+    \parbox{350pt}{
+\tab \tab for i in indices{\_}hat:
+\\\tab \tab \tab i = i[0]
+\\\tab \tab \tab if class{\_}ids{\_}hat[i] == 1:
+\\\tab \tab \tab \tab noHat = True
+\\\tab \tab \tab else:
+\\\tab \tab \tab \tab noHat = False
+\\\tab \tab \tab box = boxes{\_}hat[i]
+\\\tab \tab \tab x = box[0]
+\\\tab \tab \tab y = box[1]
+\\\tab \tab \tab w = box[2]
+\\\tab \tab \tab h = box[3]
+\\\tab \tab \tab image = draw{\_}prediction(image, class{\_}ids{\_}hat[i], confidences{\_}hat[i], round(x), round(y), round(x + w), round(y + h))
+\\\tab \tab 
+\\\tab \tab cv2.putText(image, "FPS: "+ str(round(count/(time.time()-start))), (30, 30), cv2.FONT{\_}HERSHEY{\_}SIMPLEX, 1, [0,255,0], 1)
+\\\tab \tab {\#} Show webcam
+\\\tab \tab cv2.imshow("test", image)
+\\
+\\\tab k = cv2.waitKey(1)\tab  
+\\\tab if k%256 == 27:
+\\\tab \tab {\#} ESC pressed
+\\\tab \tab print("Escape hit, closing...")
+\\\tab \tab break
+\\\tab count+=1
+\\
+\\cap.release()
+\\cv2.destroyAllWindows()
+\\
+\\end = time.time()
+\\print("YOLO Execution time: " + str(end-start))
+	}
+}
+
 \end{enumerate}
