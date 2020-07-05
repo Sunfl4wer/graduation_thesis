@@ -1,6 +1,6 @@
 \chapter{Cơ sở lý thuyết}
 
-\section{Gradient Descent}
+\section{Gradient Descent\cite{ref:1}}
 Phần lớn các mô hình máy học được xây dựng dựa trên việc tối ưu hóa hàm mất mát hay nói cách khác là tìm cực tiểu của một hàm số biết trước. Đối với các hàm số đơn giản, việc xác đinh các điểm cực tiểu có thể được giải quyết thông qua việc tính toán đạo hàm cấp 1 và cấp 2. Tuy nhiên hàm mất mát của các mô hình máy học hay học sâu thường có số chiều lớn và đạo hàm phức tạp, do đó khó có thể áp dụng các phương pháp truyền thống để tìm các giá trị cực tiểu. Thay vào đó các mô hình này sử dụng giải thuật Gradient Descent để tìm các điểm cực tiểu của hàm mất mát.
 
 Một hàm số có thể có nhiều điểm cực tiểu địa phương (local minimum) và cực tiểu toàn cục (global minimum). Ta có thể thấy trên hình \ref{fig:minimums} là đồ thị của một hàm số đơn biến, điểm màu xanh là cực tiểu địa phương, điểm màu đỏ là cực tiểu toàn cục.
@@ -51,7 +51,7 @@ Ta đã biết các giải thuật Gradient Descent sẽ cần phải thực hi�
 	\item Kiểm tra sự thay đổi của gradient giữa hai lần cập nhật liên tiếp, nếu sự sai lêch đạt tới ngưỡng đủ nhỏ thì ngưng giải thuật. Nhược điểm của phương pháp này là việc tính gradient của các hàm phức tạp khó có thể thực hiện được.
 	\item Kiểm tra kết quả của giải thuật để ngừng việc lặp. Việc này cần người thực hiện việc huấn luyên mô hình phải thường xuyên kiểm tra các tham số hiệu năng của giải thuật lên một tập dữ liệu kiểm tra - \emph{validation set} để xem tại thời điểm nào giải thuật có hiệu năng tốt nhất.
 \end{enumerate}
-\section{Backpropagation}
+\section{Backpropagation\cite{ref:2}}
 Xét một mô hình mạng neuron (hình \ref{fig:ann})
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/ann.png}}
@@ -277,7 +277,7 @@ Các bước để thực hiện giải thuật Backpropagation cho một mạng
 	{ e_{j}^{(k)} }
 \end{align*}
 \end{enumerate}
-\section{Mạng neuron tích chập}
+\section{Mạng neuron tích chập\cite{ref:3}\cite{ref:4}}
 Mạng neuron tích chập (tiếng Anh: Convolutional Neural Network - CNN) là một loại mạng neuron dùng riêng cho các bài toán về hình ảnh. Bên trong mạng neuron tích chập vẫn là các neuron có các trọng số và bias có thể cập nhật được để học các đặc trưng của hình ảnh.
 
 Các lớp của mạng neuron tích chập được bố trí theo ba chiều: chiều rộng (tiếng Anh: width), chiều cao (tiếng Anh: height), chiều sâu (tiếng Anh: depth). Chiều sâu ở đây muốn nói tời chiều sâu của miền các neuron kích hoạt (tiếng Anh: activation volume) chứ không phải là chiều sâu của cả mạng neuron. Các neuron ở lớp sau sẽ chỉ được kết nối với một phần nhỏ các neuron ở lớp trước chứ không phải là toàn bộ như trong các mạng neuron thông thường. Ta lấy ví dụ mạng CIFAR-10 (hình \ref{fig:cnn}), miền các neuron kích hoạt ở mạng neuron này có kích thước các chiều là $32{\times}32{\times}3$ (\emph{rộng} ${\times}$ \emph{cao} ${\times}$ \emph{sâu}). Lớp cuối cùng của CIFAR-10 sẽ có kích thước các chiều là $1{\times}10{\times}10$ ứng với vector điểm cho các nhãn cần được phân loại (tiếng Anh: class scores).
@@ -389,7 +389,7 @@ Hình ảnh sau khi qua các lớp tích chập và pooling thì đầu ra sẽ 
   	\caption{Mạng neuron tích chập gồm hai lớp tích chập và pooling, một lớp kết nối đầy đủ.}
   	\label{fig:cnn_simplified}
 \end{figure}
-\section{YOLOv3}
+\section{YOLOv3\cite{YOLOv3-1}\cite{ref:6}}
 YOLO - You Only Look Once là một trong những mô hình nhận diện thời gian thực hiện đại nhất và đang được sử dụng cho nhiều bài toán nhận diện, theo dõi khác nhau. Không như những mạng CNN hay R-CNN  trước đây, thay vì sử dung phương pháp dự đoán trên từng miền (tiếng Anh: region proposal method) và cửa sổ trượt (tiếng Anh: sliding window) để phát hiện vật thể trong từng vùng nhỏ trong khung hình và tiến hành phân loại vật thể đó. YOLO sử dụng cả khung hình để nhận diện vật thể, các đặc trưng của vùng nền phía sau (tiếng Anh: background) cũng được dùng trong quá trình huấn luyện. Do vậy YOLO có thể nhận diện vật thể một cách nhanh chóng trong một khung hình với độ chính khác cao chỉ với một lần xử lý, đó cũng là lý do vì sao mô hình này được gọi là Bạn Chỉ Cần Nhìn Một Lần (tiếng Anh: You Only Look Once).
 \subsection{Unified Detection}
 Hình ảnh đầu vào được chia thành một mạng lưới ô vuông (tiếng Anh: grid cell) có kích thước $S \times S$. Nếu như tâm của một vật thể nằm ở tâm của của một ô thì ô đó sẽ chịu trách nhiệm trong việc nhận diện vật thể đó.
