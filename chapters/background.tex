@@ -1,6 +1,11 @@
 \chapter{Cơ sở lý thuyết}
-
-\section{Gradient Descent\cite{ref:1}}
+Việc nghiên cứu và mô phỏng cách mà não bộ con người hoạt động trên máy tính đã bắt đầu từ những năm $50$ của thế kỷ $XX$. Nhờ vào những nghiên cứu mang tính đột phá như \textit{The organization of behavior}\cite{Hebb:1949} của Donald Olding Hebb, \textit{Some Studies in Machine Learning Using the Game of Checkers}\cite{Arthur:1959:IBM} của Arthur Lee Samuel đã đặt nền móng cho những mô hình mạng neuron đa lớp nhân tạo đầu tiên trong những năm $60$ của thế kỷ $XX$, mở ra những hướng nghiên cứu mới về các kiến trúc mạng neuron feedforward. Sau đó vào những năm $70$ lý thuyết về backpropagation bắt đầu được hình thành nhằm cho phép mạng neuron đa lớp có thể thích nghi với các điều kiện. 
+\section{Mạng neuron nhân tạo}
+\subsection{Ý tưởng về một neuron nhân tạo}
+\subsection{Mạng lưới các neuron}
+\subsection{Hàm mất mát và bài toán tối ưu mạng neuron}
+\section{Tối ưu hàm mất mát bằng Gradient Descent}
+\subsection{Một ví dụ đơn giản về Gradient Descent}
 Phần lớn các mô hình máy học được xây dựng dựa trên việc tối ưu hóa hàm mất mát hay nói cách khác là tìm cực tiểu của một hàm số biết trước. Đối với các hàm số đơn giản, việc xác đinh các điểm cực tiểu có thể được giải quyết thông qua việc tính toán đạo hàm cấp 1 và cấp 2. Tuy nhiên hàm mất mát của các mô hình máy học hay học sâu thường có số chiều lớn và đạo hàm phức tạp, do đó khó có thể áp dụng các phương pháp truyền thống để tìm các giá trị cực tiểu. Thay vào đó các mô hình này sử dụng giải thuật Gradient Descent để tìm các điểm cực tiểu của hàm mất mát.
 
 Một hàm số có thể có nhiều điểm cực tiểu địa phương (local minimum) và cực tiểu toàn cục (global minimum). Ta có thể thấy trên hình \ref{fig:minimums} là đồ thị của một hàm số đơn biến, điểm màu xanh là cực tiểu địa phương, điểm màu đỏ là cực tiểu toàn cục.
@@ -25,7 +30,7 @@ Giải thuật Batch Gradient Descent sử dụng tất cả các điểm đầu
 	\centerline{\includegraphics[scale=0.6]{images/batch_gradient_descent.png}}
   	\caption{Batch Gradient Descent với bài toán hồi quy tuyến tính. Toàn bộ số điểm đầu vào đều được dùng để cập nhật các vector trọng số $(a,b)$ cho đường hồi quy tại mỗi bước, với $a$ là độ dốc và $b$ độ sai lệch.}
   	\label{fig:batch_gradient_descent}
-\end{figure}
+\end{figure} 
 Ngoài ra sau khi đã tìm được nghiêm tối ưu của bài toán. Nếu ta thêm một điểm đầu vào mới vào tập dữ liệu cũ thì việc tính toán phải thực hiện lại từ đầu với toàn bộ điểm đầu vào bao gồm tập điểm đầu vào cũ và điểm mới thêm vào.
 \subsection{Stochastic Gradient Descent}
 Khác với Batch Gradient Descent giải thuật Stochastic Gradient Descent chỉ dùng gradient của một điểm ngẫu nhiên để cập nhật lại vector trọng số tại mỗi bước. Sau khi đi qua hết tất cả các điểm của tập đầu vào, thứ tự các điểm sẽ được xáo trộn và giải thuật lại tiếp tục với từng điểm. Mỗi một lần giải thuật Stochastic Gradient Descent tính toán xong với một điểm được gọi là một \emph{iteration} còn với toàn bộ tập điểm thì gọi là một \emph{epoch}. Cũng bài toán hồi quy tuyến tính ở trên nhưng với giải thuật Stochastic Gradient Descent (hình \ref{fig:stochastic_gradient_descent}), ta có thể thấy số iteration mà giải thuật Stochastic Gradient Descent phải thực hiện trong một epoch là 30. Số phép tính của một lần tính toán là 2. 
@@ -51,7 +56,7 @@ Ta đã biết các giải thuật Gradient Descent sẽ cần phải thực hi�
 	\item Kiểm tra sự thay đổi của gradient giữa hai lần cập nhật liên tiếp, nếu sự sai lêch đạt tới ngưỡng đủ nhỏ thì ngưng giải thuật. Nhược điểm của phương pháp này là việc tính gradient của các hàm phức tạp khó có thể thực hiện được.
 	\item Kiểm tra kết quả của giải thuật để ngừng việc lặp. Việc này cần người thực hiện việc huấn luyên mô hình phải thường xuyên kiểm tra các tham số hiệu năng của giải thuật lên một tập dữ liệu kiểm tra - \emph{validation set} để xem tại thời điểm nào giải thuật có hiệu năng tốt nhất.
 \end{enumerate}
-\section{Backpropagation\cite{ref:2}}
+\section{Sử dụng backpropagation để giải quyết vấn để cập nhật trọng số trong mạng neuron}
 Xét một mô hình mạng neuron (hình \ref{fig:ann})
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/ann.png}}
@@ -389,7 +394,7 @@ Hình ảnh sau khi qua các lớp tích chập và pooling thì đầu ra sẽ 
   	\caption{Mạng neuron tích chập gồm hai lớp tích chập và pooling, một lớp kết nối đầy đủ.}
   	\label{fig:cnn_simplified}
 \end{figure}
-\section{YOLOv3\cite{YOLOv3-1}\cite{ref:6}}
+\section{Mô hình YOLOv3}
 YOLO - You Only Look Once là một trong những mô hình nhận diện thời gian thực hiện đại nhất và đang được sử dụng cho nhiều bài toán nhận diện, theo dõi khác nhau. Không như những mạng CNN hay R-CNN  trước đây, thay vì sử dung phương pháp dự đoán trên từng miền (tiếng Anh: region proposal method) và cửa sổ trượt (tiếng Anh: sliding window) để phát hiện vật thể trong từng vùng nhỏ trong khung hình và tiến hành phân loại vật thể đó. YOLO sử dụng cả khung hình để nhận diện vật thể, các đặc trưng của vùng nền phía sau (tiếng Anh: background) cũng được dùng trong quá trình huấn luyện. Do vậy YOLO có thể nhận diện vật thể một cách nhanh chóng trong một khung hình với độ chính khác cao chỉ với một lần xử lý, đó cũng là lý do vì sao mô hình này được gọi là Bạn Chỉ Cần Nhìn Một Lần (tiếng Anh: You Only Look Once).
 \subsection{Unified Detection}
 Hình ảnh đầu vào được chia thành một mạng lưới ô vuông (tiếng Anh: grid cell) có kích thước $S \times S$. Nếu như tâm của một vật thể nằm ở tâm của của một ô thì ô đó sẽ chịu trách nhiệm trong việc nhận diện vật thể đó.
