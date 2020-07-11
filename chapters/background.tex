@@ -1,7 +1,22 @@
 \chapter{Cơ sở lý thuyết}
-Việc nghiên cứu và mô phỏng cách mà não bộ con người hoạt động trên máy tính đã bắt đầu từ những năm $50$ của thế kỷ $XX$. Nhờ vào những nghiên cứu mang tính đột phá như \textit{The organization of behavior}\cite{Hebb:1949} của Donald Olding Hebb, \textit{Some Studies in Machine Learning Using the Game of Checkers}\cite{Arthur:1959:IBM} của Arthur Lee Samuel đã đặt nền móng cho những mô hình mạng neuron đa lớp nhân tạo đầu tiên trong những năm $60$ của thế kỷ $XX$, mở ra những hướng nghiên cứu mới về các kiến trúc mạng neuron feedforward. Sau đó vào những năm $70$ lý thuyết về backpropagation bắt đầu được hình thành nhằm cho phép mạng neuron đa lớp có thể thích nghi với các điều kiện. 
+Việc nghiên cứu và mô phỏng cách mà não bộ con người hoạt động trên máy tính đã bắt đầu từ những năm $50$ của thế kỷ $XX$. Những nghiên cứu mang tính đột phá như \textit{The organization of behavior}\cite{Hebb:1949} của Donald Olding Hebb, \textit{Some Studies in Machine Learning Using the Game of Checkers}\cite{Arthur:1959:IBM} của Arthur Lee Samuel đã đặt nền móng cho những mô hình mạng neuron đa lớp nhân tạo đầu tiên trong những năm $60$ của thế kỷ $XX$, mở ra những hướng nghiên cứu mới về các kiến trúc mạng neuron feedforward. Sau đó vào những năm $70$ lý thuyết về backpropagation bắt đầu được hình thành nhằm cho phép mạng neuron đa lớp có thể điều chỉnh các lớp ẩn để thích nghi với các tình huống khác nhau dựa vào hàm mất mát ở đầu ra. Tuy nhiên chỉ đến khi bài báo nổi tiếng của nhóm tác giả David Rumelhart, Geoffrey Hinton và Ronald Williams được công bố thì việc sử dụng backpropagation trong mạng neuron nhân tạo mới trở nên phổ biến. Bài báo \textit{Learning representations by back-propagating errors}\cite{DavidEtAl:1986} công bố năm 1986 của nhóm tác giả đã đề xuất một số mô hình mạng neuron sử dụng backpropagation có thể học và xử lý nhanh hơn các mô hình truyền thống, điều này cho phép mạng neuron nhân tạo sử dụng backpropagation có thể giải quyết được những bài toán mà đối với mạng neuron truyền thống là không có lời giải. Năm 1989, Yann LeCun, Léon Bottou, Yoshua Bengio và Patrick Haffner trong bài báo \textit{Gradient-Based Learning Applied to Document Recognition}\cite{LeCunEtAl:1998} đã kết hợp kĩ thuật backpropagation vào mạng neuron tích chập để giải quyết bài toán nhận diện chữ viết tay và phát hiện khuôn mặt. Bài báo này đã tạo tiền đề cho những nghiên cứu khác về mạng neuron tích chập và mạng neuron dựa trên gradient trong thế kỷ XXI.
+
+Chương này sẽ trình bày các lý thuyết về mạng neuron nhân tạo, vai trò của việc tối ưu hàm mất mát của một mạng neuron và cách mà một mạng neuron sử dụng giải thuật Gradient Descent kết hợp với kỹ thuật backpropagation để tối ưu hàm mất mát. Đồng thời lý thuyết về mạng neuron tích chập và ứng dụng của mạng này trong mạng YOLOv3 cũng sẽ được đề cập trong chương này để phục vụ cho các chương tiếp theo.
+
 \section{Mạng neuron nhân tạo}
 \subsection{Ý tưởng về một neuron nhân tạo}
+Neuron\cite{Suzana:2009} là một tế bào thần kinh cơ bản, cấu thành nên hệ thần kinh của con người. Trung bình một bộ não người sẽ có $86$ tỷ neuron và $10^14 - 10^15$ synapse. Hình \ref{fig:neuron} miêu tả các thành phần một neuron trong não người. Mỗi neuron sẽ nhận tín hiệu đầu vào từ các sợi nhánh (tiếng Anh: dendrite(s)) và gửi tín hiệu ra thông qua một sợi trục (tiếng Anh: axon). Sợi trục sẽ kết nối với các synapse và các synapse sẽ kết nối với các sợi nhánh của các neuron khác để gửi tín hiệu.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.1]{images/neuron.png}}
+  	\caption{Mô hình một neuron sinh học}
+  	\label{fig:neuron}
+\end{figure}
+Hình \ref{fig:aneuron} miêu tả mô hình toán học của một neuron. Tín hiệu $x_0$ đi qua sợi trục và tới synapse nơi kết nối với các sợi nhánh, mỗi sợi nhánh sẽ có một lực synapse (tiếng Anh: synaptic strength) được mô hình hóa bằng trọng số $w$ biểu thị mức độ ảnh hưởng của sợi nhánh đó đến tín hiệu truyền đến neuron tiếp theo. Lực synapse có thể được học và điều chỉnh sự ảnh hưởng của neuron này đến neuron khác. Các tín hiệu sau khi đi qua sợi nhánh sẽ có dạng $wx$ và sẽ được tổng hợp bằng hàm cộng trong tế bào neuron. Nếu như kết quả cao hơn một ngưỡng xác định thì tế bào neuron sẽ gửi tín hiệu đi. Hoạt động này được mô hình hóa bằng một hàm kích (tiếng Anh: activation function) $f$ và cũng giống như mạng neuron sinh học, đầu ra sẽ chỉ là một kết quả duy nhất để gửi đến synapse tiếp theo.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.8]{images/aneuron.jpg}}
+  	\caption{Mô hình một neuron sinh học}
+  	\label{fig:aneuron}
+\end{figure}
 \subsection{Mạng lưới các neuron}
 \subsection{Hàm mất mát và bài toán tối ưu mạng neuron}
 \section{Tối ưu hàm mất mát bằng Gradient Descent}
