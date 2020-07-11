@@ -5,7 +5,7 @@ Chương này sẽ trình bày các lý thuyết về mạng neuron nhân tạo,
 
 \section{Mạng neuron nhân tạo}
 \subsection{Ý tưởng về một neuron nhân tạo}
-Neuron\cite{Suzana:2009} là một tế bào thần kinh cơ bản, cấu thành nên hệ thần kinh của con người. Trung bình một bộ não người sẽ có $86$ tỷ neuron và $10^14 - 10^15$ synapse. Hình \ref{fig:neuron} miêu tả các thành phần một neuron trong não người. Mỗi neuron sẽ nhận tín hiệu đầu vào từ các sợi nhánh (tiếng Anh: dendrite(s)) và gửi tín hiệu ra thông qua một sợi trục (tiếng Anh: axon). Sợi trục sẽ kết nối với các synapse và các synapse sẽ kết nối với các sợi nhánh của các neuron khác để gửi tín hiệu.
+Neuron\cite{Suzana:2009} là một tế bào thần kinh cơ bản, cấu thành nên hệ thần kinh của con người. Trung bình một bộ não người sẽ có $86$ tỷ neuron và $10^{14} - 10^{15}$ synapse. Hình \ref{fig:neuron} miêu tả các thành phần một neuron trong não người. Mỗi neuron sẽ nhận tín hiệu đầu vào từ các sợi nhánh (tiếng Anh: dendrite(s)) và gửi tín hiệu ra thông qua một sợi trục (tiếng Anh: axon). Sợi trục sẽ kết nối với các synapse và các synapse sẽ kết nối với các sợi nhánh của các neuron khác để gửi tín hiệu.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.1]{images/neuron.png}}
   	\caption{Mô hình một neuron sinh học}
@@ -13,11 +13,42 @@ Neuron\cite{Suzana:2009} là một tế bào thần kinh cơ bản, cấu thành
 \end{figure}
 Hình \ref{fig:aneuron} miêu tả mô hình toán học của một neuron. Tín hiệu $x_0$ đi qua sợi trục và tới synapse nơi kết nối với các sợi nhánh, mỗi sợi nhánh sẽ có một lực synapse (tiếng Anh: synaptic strength) được mô hình hóa bằng trọng số $w$ biểu thị mức độ ảnh hưởng của sợi nhánh đó đến tín hiệu truyền đến neuron tiếp theo. Lực synapse có thể được học và điều chỉnh sự ảnh hưởng của neuron này đến neuron khác. Các tín hiệu sau khi đi qua sợi nhánh sẽ có dạng $wx$ và sẽ được tổng hợp bằng hàm cộng trong tế bào neuron. Nếu như kết quả cao hơn một ngưỡng xác định thì tế bào neuron sẽ gửi tín hiệu đi. Hoạt động này được mô hình hóa bằng một hàm kích (tiếng Anh: activation function) $f$ và cũng giống như mạng neuron sinh học, đầu ra sẽ chỉ là một kết quả duy nhất để gửi đến synapse tiếp theo.
 \begin{figure}[ht!]
-	\centerline{\includegraphics[scale=0.8]{images/aneuron.jpg}}
-  	\caption{Mô hình một neuron sinh học}
+	\centerline{\includegraphics[scale=0.6]{images/aneuron.jpg}}
+  	\caption{Mô hình một neuron nhân tạo}
   	\label{fig:aneuron}
 \end{figure}
+
+Một số hàm số thường được sử dụng làm hàm kích cho một neuron nhân tạo gồm:
+\begin{itemize}
+	\item Hàm sigmoid $\sigma(x) = \frac{1}{1+e^{-x}}$. Có thể thấy trên hình \ref{fig:sigmoid} đồ thị của hàm sigmoid, với mọi giá trị của $x$ trên miền $\mathbb{R}$ sau khi đi qua hàm sigmoid thì kết quả sẽ là một giá trị nằm trong khoảng $[0,1]$. Đây là một trong những hàm số thường được sử dụng trong các mô hình mạng neuron cổ điển vì tính phi tuyến và khả năng mô hình hóa tương đối tốt quá trình một neuron gửi tín hiệu với cận $0$ tượng trưng cho tín hiệu không được truyền đi và cận $1$ tượng trưng cho tín hiệu được truyền đi.
+	\begin{figure}[ht!]
+		\centerline{\includegraphics[scale=0.4]{images/sigmoid.png}}
+  		\caption{Đồ thị và đao hàm của hàm Sigmoid}
+  		\label{fig:sigmoid}
+	\end{figure}
+	Tuy nhiên ta có thể thấy trên hình \ref{fig:sigmoid} hàm sigmoid có đạo hàm xấp xỉ bằng $0$ tại các biên $0$ và $1$. Điều này ảnh hưởng tới việc sử dụng phương pháp backpropagation vì trong quá trình backpropagtion thì đạo hàm của hàm kích sẽ được nhân với giá trị gradient của đầu ra tại neuron này, khi đó kết quả thu được có thể bằng $0$ nếu kết quả đầu ra của neuron xấp xỉ $0$ hoặc $1$ và các trọng số kết nối với neuron này sẽ không được cập nhật. Ngoài ra kết quả của hàm signmoid sẽ đối xứng quanh $0.5$ nên sẽ gây ra hiện tượng kết quả của gradient đổi dấu liên tục trong quá trình tính toán.
+	\item Hàm tanh $\tanh(x)=2\sigma(2x)-1$. Hình \ref{fig:tanh} cho thấy hàm số này cũng có đạo hàm bằng $0$ tại các biên $0$ và $1$ như hàm sigmoid nhưng kết quả của hàm tanh sẽ đối xứng quanh điểm $0$. Do vậy hàm tanh thường được ưu tiên dùng thay cho hàm sigmoid.
+	\begin{figure}[ht!]
+		\centerline{\includegraphics[scale=0.4]{images/tanh.png}}
+  		\caption{Đồ thị và đạo hàm của hàm Tanh}
+  		\label{fig:tanh}
+	\end{figure}
+	\item Hàm Rectified Linear Unit với $ReLU(x) = max(0,x), x \in \mathbb{R}$. Hình \ref{fig:relu} miêu tả đồ thị hàm Rectified Linear Unit, khi sử dụng hàm số này, neuron sẽ cho kết quả đầu ra luôn dương tại ngưỡng $0$. Hàm số này càng ngày càng được sử dụng nhiều trong các kiến trúc mạng neuron vì những ưu điểm như có khả năng tăng tốc độ hội tụ của một mô hình sử dụng gradient descent nhanh hơn gấp $6$ lần\cite{alexetal:2012} so với hàm sigmoid/tanh. Đồng thời việc tính toán đối với hàm số này cũng đơn giản hơn rất nhiều so với hàm sigmoid và tanh.
+	\begin{figure}[ht!]
+		\centerline{\includegraphics[scale=0.4]{images/relu.png}}
+  		\caption{Đồ thị và đạo hàm của hàm Rectified Linear Unit}
+  		\label{fig:relu}
+	\end{figure}
+\end{itemize}
+
+Về bản chất một neuron có thể đóng vai trò như một bộ phân loại nhị phân, tuy nhiên đối với các bài toán phức tạp, việc sử dụng một neuron đơn lẻ là bất khả thi. Để giải quyết các bài toán này, cần thiết phải có một mạng lưới gồm nhiều neuron liên kết với nhau. Đây cũng chính là nguồn cảm hứng cho nhiều nghiên cứu về các mô hình mạng neuron mở ra nhiều tiềm năng ứng dụng của trí tuệ nhân tạo trong cuộc sống.
 \subsection{Mạng lưới các neuron}
+Khác với mạng neuron sinh học, mạng neuron nhân tạo thường được tổ chức thành các lớp. Hình \ref{fig:nn} thể hiện cấu trúc của một mạng neuron đơn giản. Lớp đầu tiên là lớp đầu vào (tiếng Anh: input layer) được dùng để lấy dữ liệu đầu vào cho mạng neuron. Lớp sau cùng là lớp đầu ra (tiếng Anh: output layer), lớp này sẽ cho ra kết quả tính toán sau cùng của các class cần được dự đoán với dữ liệu đầu vào tương ứng. Các lớp ở giữa được gọi là lớp ẩn (tiếng Anh: hidden layer) chứa các neuron có hàm kích và các liên kết có trọng số, đây chính là các lớp phụ trách việc trích xuất các đặc trưng và phân loại tín hiệu đầu vào. Việc học của mạng neuron do vậy cũng diễn ra tại các lớp ẩn. Ta có thể thấy các neuron trong cùng một lớp thì không liên kết với nhau, ngoài ra mỗi neuron của lớp trước sẽ kết nối với mọi neuron của lớp sau ngoại trừ bias. Do đó các lớp này còn được gọi là các lớp kết nối hoàn toàn (tiếng Anh: fully connected layer).
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.4]{images/nn.png}}
+  	\caption{Mô hình mạng neuron nhân tạo gồm 3 lớp hidden layer, 1 đầu vào và 1 đầu ra}
+  	\label{fig:nn}
+\end{figure}
 \subsection{Hàm mất mát và bài toán tối ưu mạng neuron}
 \section{Tối ưu hàm mất mát bằng Gradient Descent}
 \subsection{Một ví dụ đơn giản về Gradient Descent}
