@@ -8,13 +8,13 @@ Chương này sẽ trình bày các lý thuyết về mạng neuron nhân tạo,
 Neuron\cite{Suzana:2009} là một tế bào thần kinh cơ bản, cấu thành nên hệ thần kinh của con người. Trung bình một bộ não người sẽ có $86$ tỷ neuron và $10^{14} - 10^{15}$ synapse. Hình \ref{fig:neuron} miêu tả các thành phần một neuron trong não người. Mỗi neuron sẽ nhận tín hiệu đầu vào từ các sợi nhánh (tiếng Anh: dendrite(s)) và gửi tín hiệu ra thông qua một sợi trục (tiếng Anh: axon). Sợi trục sẽ kết nối với các synapse và các synapse sẽ kết nối với các sợi nhánh của các neuron khác để gửi tín hiệu.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.1]{images/neuron.png}}
-  	\caption{Mô hình một neuron sinh học}
+  	\caption{Mô hình một neuron sinh học.}
   	\label{fig:neuron}
 \end{figure}
 Hình \ref{fig:aneuron} miêu tả mô hình toán học của một neuron. Tín hiệu $x_0$ đi qua sợi trục và tới synapse nơi kết nối với các sợi nhánh, mỗi sợi nhánh sẽ có một lực synapse (tiếng Anh: synaptic strength) được mô hình hóa bằng trọng số $w$ biểu thị mức độ ảnh hưởng của sợi nhánh đó đến tín hiệu truyền đến neuron tiếp theo. Lực synapse có thể được học và điều chỉnh sự ảnh hưởng của neuron này đến neuron khác. Các tín hiệu sau khi đi qua sợi nhánh sẽ có dạng $wx$ và sẽ được tổng hợp bằng hàm cộng trong tế bào neuron. Nếu như kết quả cao hơn một ngưỡng xác định thì tế bào neuron sẽ gửi tín hiệu đi. Hoạt động này được mô hình hóa bằng một hàm kích (tiếng Anh: activation function) $f$ và cũng giống như mạng neuron sinh học, đầu ra sẽ chỉ là một kết quả duy nhất để gửi đến synapse tiếp theo.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/aneuron.jpg}}
-  	\caption{Mô hình một neuron nhân tạo}
+  	\caption{Mô hình một neuron nhân tạo.}
   	\label{fig:aneuron}
 \end{figure}
 
@@ -23,37 +23,83 @@ Một số hàm số thường được sử dụng làm hàm kích cho một ne
 	\item Hàm sigmoid $\sigma(x) = \frac{1}{1+e^{-x}}$. Có thể thấy trên hình \ref{fig:sigmoid} đồ thị của hàm sigmoid, với mọi giá trị của $x$ trên miền $\mathbb{R}$ sau khi đi qua hàm sigmoid thì kết quả sẽ là một giá trị nằm trong khoảng $[0,1]$. Đây là một trong những hàm số thường được sử dụng trong các mô hình mạng neuron cổ điển vì tính phi tuyến và khả năng mô hình hóa tương đối tốt quá trình một neuron gửi tín hiệu với cận $0$ tượng trưng cho tín hiệu không được truyền đi và cận $1$ tượng trưng cho tín hiệu được truyền đi.
 	\begin{figure}[ht!]
 		\centerline{\includegraphics[scale=0.4]{images/sigmoid.png}}
-  		\caption{Đồ thị và đao hàm của hàm Sigmoid}
+  		\caption{Đồ thị và đao hàm của hàm Sigmoid.}
   		\label{fig:sigmoid}
 	\end{figure}
 	Tuy nhiên ta có thể thấy trên hình \ref{fig:sigmoid} hàm sigmoid có đạo hàm xấp xỉ bằng $0$ tại các biên $0$ và $1$. Điều này ảnh hưởng tới việc sử dụng phương pháp backpropagation vì trong quá trình backpropagtion thì đạo hàm của hàm kích sẽ được nhân với giá trị gradient của đầu ra tại neuron này, khi đó kết quả thu được có thể bằng $0$ nếu kết quả đầu ra của neuron xấp xỉ $0$ hoặc $1$ và các trọng số kết nối với neuron này sẽ không được cập nhật. Ngoài ra kết quả của hàm signmoid sẽ đối xứng quanh $0.5$ nên sẽ gây ra hiện tượng kết quả của gradient đổi dấu liên tục trong quá trình tính toán.
 	\item Hàm tanh $\tanh(x)=2\sigma(2x)-1$. Hình \ref{fig:tanh} cho thấy hàm số này cũng có đạo hàm bằng $0$ tại các biên $0$ và $1$ như hàm sigmoid nhưng kết quả của hàm tanh sẽ đối xứng quanh điểm $0$. Do vậy hàm tanh thường được ưu tiên dùng thay cho hàm sigmoid.
 	\begin{figure}[ht!]
 		\centerline{\includegraphics[scale=0.4]{images/tanh.png}}
-  		\caption{Đồ thị và đạo hàm của hàm Tanh}
+  		\caption{Đồ thị và đạo hàm của hàm Tanh.}
   		\label{fig:tanh}
 	\end{figure}
 	\item Hàm Rectified Linear Unit với $ReLU(x) = max(0,x), x \in \mathbb{R}$. Hình \ref{fig:relu} miêu tả đồ thị hàm Rectified Linear Unit, khi sử dụng hàm số này, neuron sẽ cho kết quả đầu ra luôn dương tại ngưỡng $0$. Hàm số này càng ngày càng được sử dụng nhiều trong các kiến trúc mạng neuron vì những ưu điểm như có khả năng tăng tốc độ hội tụ của một mô hình sử dụng gradient descent nhanh hơn gấp $6$ lần\cite{alexetal:2012} so với hàm sigmoid/tanh. Đồng thời việc tính toán đối với hàm số này cũng đơn giản hơn rất nhiều so với hàm sigmoid và tanh.
 	\begin{figure}[ht!]
 		\centerline{\includegraphics[scale=0.4]{images/relu.png}}
-  		\caption{Đồ thị và đạo hàm của hàm Rectified Linear Unit}
+  		\caption{Đồ thị và đạo hàm của hàm Rectified Linear Unit.}
   		\label{fig:relu}
 	\end{figure}
 \end{itemize}
 
 Về bản chất một neuron có thể đóng vai trò như một bộ phân loại nhị phân, tuy nhiên đối với các bài toán phức tạp, việc sử dụng một neuron đơn lẻ là bất khả thi. Để giải quyết các bài toán này, cần thiết phải có một mạng lưới gồm nhiều neuron liên kết với nhau. Đây cũng chính là nguồn cảm hứng cho nhiều nghiên cứu về các mô hình mạng neuron mở ra nhiều tiềm năng ứng dụng của trí tuệ nhân tạo trong cuộc sống.
 \subsection{Mạng lưới các neuron}
-Khác với mạng neuron sinh học, mạng neuron nhân tạo thường được tổ chức thành các lớp. Hình \ref{fig:nn} thể hiện cấu trúc của một mạng neuron đơn giản. Lớp đầu tiên là lớp đầu vào (tiếng Anh: input layer) được dùng để lấy dữ liệu đầu vào cho mạng neuron. Lớp sau cùng là lớp đầu ra (tiếng Anh: output layer), lớp này sẽ cho ra kết quả tính toán sau cùng của các class cần được dự đoán với dữ liệu đầu vào tương ứng. Các lớp ở giữa được gọi là lớp ẩn (tiếng Anh: hidden layer) chứa các neuron có hàm kích và các liên kết có trọng số, đây chính là các lớp phụ trách việc trích xuất các đặc trưng và phân loại tín hiệu đầu vào. Việc học của mạng neuron do vậy cũng diễn ra tại các lớp ẩn. Ta có thể thấy các neuron trong cùng một lớp thì không liên kết với nhau, ngoài ra mỗi neuron của lớp trước sẽ kết nối với mọi neuron của lớp sau ngoại trừ bias. Do đó các lớp này còn được gọi là các lớp kết nối hoàn toàn (tiếng Anh: fully connected layer).
+Khác với mạng neuron sinh học, mạng neuron nhân tạo thường được tổ chức thành các lớp. Hình \ref{fig:nn} thể hiện cấu trúc của một mạng neuron nhân tạo đơn giản. Lớp đầu tiên là lớp đầu vào (tiếng Anh: input layer) được dùng để lấy dữ liệu đầu vào cho mạng neuron. Lớp sau cùng là lớp đầu ra (tiếng Anh: output layer), lớp này sẽ cho ra kết quả tính toán sau cùng của các class cần được dự đoán với dữ liệu đầu vào tương ứng. Các lớp ở giữa được gọi là lớp ẩn (tiếng Anh: hidden layer) chứa các neuron có hàm kích và các liên kết có trọng số, đây chính là các lớp phụ trách việc trích xuất các đặc trưng và phân loại tín hiệu đầu vào. Việc học của mạng neuron do vậy cũng diễn ra tại các lớp ẩn. Ta có thể thấy các neuron trong cùng một lớp thì không liên kết với nhau, ngoài ra mỗi neuron của lớp trước sẽ kết nối với mọi neuron của lớp sau ngoại trừ bias. Do đó các lớp này còn được gọi là các lớp kết nối hoàn toàn (tiếng Anh: fully connected layer).
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.4]{images/nn.png}}
-  	\caption{Mô hình mạng neuron nhân tạo gồm 3 lớp hidden layer, 1 đầu vào và 1 đầu ra}
+  	\caption{Mô hình mạng neuron nhân tạo gồm 3 lớp hidden layer, 1 đầu vào và 1 đầu ra.}
   	\label{fig:nn}
 \end{figure}
-\subsection{Hàm mất mát và bài toán tối ưu mạng neuron}
-\section{Tối ưu hàm mất mát bằng Gradient Descent}
-\subsection{Một ví dụ đơn giản về Gradient Descent}
-Phần lớn các mô hình máy học được xây dựng dựa trên việc tối ưu hóa hàm mất mát hay nói cách khác là tìm cực tiểu của một hàm số biết trước. Đối với các hàm số đơn giản, việc xác đinh các điểm cực tiểu có thể được giải quyết thông qua việc tính toán đạo hàm cấp 1 và cấp 2. Tuy nhiên hàm mất mát của các mô hình máy học hay học sâu thường có số chiều lớn và đạo hàm phức tạp, do đó khó có thể áp dụng các phương pháp truyền thống để tìm các giá trị cực tiểu. Thay vào đó các mô hình này sử dụng giải thuật Gradient Descent để tìm các điểm cực tiểu của hàm mất mát.
 
+Quá trình mạng neuron nhân tạo lấy dữ liệu từ lớp đầu vào, đẩy dữ liệu qua các lớp ẩn và trả kết quả ở lớp đầu ra được gọi là quá trính \emph{feed-forward}. Hình \ref{fig:ann} và hệ phương trình \ref{ann_eq} miêu tả mô hình toán học tổng quát của các lớp ẩn trong quá trình feed-forward của một mạng neuron.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.6]{images/ann.png}}
+  	\caption{Mô hình toán của các lớp ẩn trong mạng neuron.}
+  	\label{fig:ann}
+\end{figure}
+\begin{align}
+	a^{(0)}&=x \nonumber\\
+	z^{(k)}&={\boldsymbol{W}^{(k)T}}{a^{(k-1)}}+{\boldsymbol{b}}^{(k)},k=1,2,..,N \label{ann_eq}\\
+	a^{(k)}&=f^{(k)}\left(z^{(k)}\right),k=1,2,..,N \nonumber\\
+	\widehat{y}&=a^{(N)} \nonumber
+\end{align}
+Với $\boldsymbol{W}^{(k)}$ là ma trận trọng số của các liên kết giữa lớp thứ $k-1$ và lớp thứ $k$, $\boldsymbol{b}^{(k)}$ là vector bias của lớp thứ $k$, $z^{(k)}$ là vector đầu vào lớp ẩn thứ $k$, $a^{(k)}$ là vector đầu ra của lớp ẩn thứ $k$. Trong quá trình feed-forward, xét neuron thứ $i$ của lớp thứ $k-1$ với kết quả đầu ra $a^{(k-1)}_i$, đầu vào $z^{(k)}_j$ của neuron thứ $j$ ở lớp thứ $k$ là tổng tích các đầu ra ở lớp thứ $k-1$ với các trọng số $w^{(k)}_{ij}$ cộng với bias $b^{(k)}_{j}$ như phương trình
+\begin{equation}
+	z^{(k)}_j={\sum_i} {a^{(k-1)}_i} \times {w^{(k)}_{ij}} + {{b}^{(k)}_j}.
+\end{equation}
+Sau đó với mỗi giá trị đầu vào $z^{(k)}_i$ của một neuron thứ $i$ của lớp thứ $k$ ta sẽ có giá trị đầu ra của neuron là $a^{(k)}_i=f^{(k)}\left(z^{(k)}_i\right)$ với $f^{(k)}$ là hàm kích của các neuron ở lớp thứ $k$. Quá trình này xảy ra liên tục giữa các lớp ẩn trong mạng neuron, do đó kết quả ở lớp đầu ra $\widehat{y}=a^{(N)}$ với một dữ liệu đầu vào $a^{(0)}=x$ phụ thuộc vào các $\boldsymbol{W}^{(k)}$ và $\boldsymbol{b}^{(k)}$. Ban đầu các ma trận trọng số và vector bias được khởi tạo một cách ngẫu nhiên hoặc theo một quy luật định trước, tuy nhiên kết quả dự đoán của mạng neuron với các giá trị khởi tạo này sẽ không chính xác cũng như con người không thể thuần thục một thao tác ngay lập tức mà phải trải qua một quá trình học, ý tưởng cho việc học của một mạng neuron là với mỗi giá trị đầu vào, sau quá trình feed-forward, mạng neuron nhân tạo có thể đánh giá được mức độ chính xác của việc tính toán ở các lớp ẩn và điều chỉnh các ma trận trọng số và vector bias để tăng độ chính xác hay nói cách khác là tối thiểu hóa độ sai lêch giữa kết quả dự đoán và kết quả thật sự.
+\subsection{Hàm mất mát và bài toán tối ưu mạng neuron}
+Để đánh giá được sự sai lệch giữa kết quả dự đoán được và kết quả thật sự, các mô hình mạng neuron sử dụng khái niệm hàm mất mát $J\left(
+		{\boldsymbol{W}},{\boldsymbol{b}},{\boldsymbol{X}},{\boldsymbol{Y}}
+	\right)$ 
+(tiếng Anh: loss function). Một trong những hàm mất mát thường được sử dụng trong các mô hình mạng neuron nhân tạo cổ điển là hàm trung bình bình phương sai số (tiếng Anh: mean square error - MSE)
+\begin{equation}
+	J
+	\left(
+		{\boldsymbol{W}},{\boldsymbol{b}},{\boldsymbol{X}},{\boldsymbol{Y}}
+	\right)
+	=
+	{
+		{\frac{1}{M}} 
+		{\sum_{i=1}^{M}} 
+		{ { {\parallel} y_i - \widehat{y_i} {\parallel} }_2 }^2
+	}
+	=
+	{
+		{\frac{1}{M}} 
+		{\sum_{i=1}^{M}} 
+		{ { {\parallel} y_i - {a_i}^{(N)} {\parallel} }_2 }^2
+	}.
+\end{equation}
+Xét bài toán phân loại nhị phân với $M=2$, trên hình \ref{fig:loss_function} ta thấy rằng nếu mô hình càng đưa ra dự đoán chính xác thì $J$ sẽ càng nhỏ do đó mục tiêu sau cùng của một mạng neuron nhân tạo trong quá trình học là tối thiểu hóa các giá trị của hàm mất mát với các điểm đầu vào khác nhau.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.4]{images/loss_function.png}}
+  	\caption{Giá trị hàm mất mát theo với các trường hợp dự đoán khác nhau.}
+  	\label{fig:loss_function}
+\end{figure}
+Do $J$ phụ thuộc vào các trọng số $w^{(k)}_ij$ và các bias $b^{(k)}_j$ nên sau khi đánh giá được mức độ chính xác của dự đoán, mạng neuron nhân tạo sẽ tiến hành điều chỉnh các giá trị này nhằm làm giảm giá trị $J$ trong các lần tính sau. Phương pháp được dùng để thực hiện việc tối thiểu hàm mất mát là Gradient Descent.
+\section{Tối ưu hàm mất mát bằng Gradient Descent}
+Để có thể hiểu cách mà Gradient Descent được dùng để tối thiểu hàm mất mát của một mô hình mạng neuron nhân tạo. Ta sẽ bắt đầu bằng một ví dụ đơn giản về Gradient Descent với một hàm số đơn biến, sau đó mở rộng ra cho hàm số đa biến.
+\subsection{Một ví dụ đơn giản về Gradient Descent}
 Một hàm số có thể có nhiều điểm cực tiểu địa phương (local minimum) và cực tiểu toàn cục (global minimum). Ta có thể thấy trên hình \ref{fig:minimums} là đồ thị của một hàm số đơn biến, điểm màu xanh là cực tiểu địa phương, điểm màu đỏ là cực tiểu toàn cục.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.8]{images/minimums.png}}
@@ -66,11 +112,9 @@ Giả sử ta có hai điểm $M$ tại $x_M$ và $N$ tại $x_N$ trên đồ th
 \end{equation}
 Với $\mu$ là \emph{tốc độ học}, ${\mu}{\in}{\mathbb{R}}$, ${\mu}>0$. Nếu ta chọn $\mu$ lớn thì ta sẽ cần ít số bước tính toán hơn để đến gần vị trí cực tiểu mong muốn nhưng trong nhiều trường hợp độ sai lêch giữa vị trí của điểm tính toán được sau cùng và vị trí của điểm cực tiểu sẽ tương đối cao. Ngược lại, nếu ta chọn $\mu$ nhỏ thì ta sẽ cần nhiều hơn số bước tính toán, bù lại khoảng cách giữa vị trí điểm tính toán được sau cùng và vị trí điểm cực tiểu sẽ có thể rất nhỏ.
 
-Việc áp dụng giả thuật Gradient Descent lên làm đa biến là một sự mở rộng của ví dụ hàm đơn biến ở trên. Cho hàm số $f:{{\mathbb{R}}^n}{\rightarrow}{\mathbb{R}}, n{\in}{\mathbb{N}}^*$, ta cần tìm cực tiểu cho $f(X)$ với $X=\begin{pmatrix}x_0 & ... & x_{n-1}\end{pmatrix}, n{\in}{\mathbb{N}}^*$ từ một điểm khởi đầu $X_0$ bằng giải thuật Gradient Descent. Công thức để tính toán cho mỗi bước là:
-\begin{equation}
-	X_{k+1}=X_{k}-{\mu}{{\nabla}_X}f\left(X_{k}\right)
-\end{equation}
-\subsection{Batch Gradient Descent}
+Hiện nay có ba phương pháp thuộc họ Gradient Descent đang được sử dụng:
+\begin{enumerate}
+\item \emph{Batch Gradient Descent}\\
 Giải thuật Batch Gradient Descent sử dụng tất cả các điểm đầu vào để cập nhật lại vector trọng số tại mỗi bước. Giả sử ta cần tối ưu hàm mất mát của một bài toán hồi quy tuyến tính gồm 30 điểm đầu vào với mỗi điểm gồm 2 tham số $\left(x,f\left(x\right)\right)$ ở hình \ref{fig:batch_gradient_descent}. Để tìm gradient cho mỗi điểm ta cần thực hiện 2 phép toán theo toán tử $\nabla$, đồng thời ta phải tìm gradient cho cả 30 điểm tại mỗi bước lặp và lấy trung bình của các kết quả này để cập nhật trọng số. Tổng số phép toán mà ta phải thực hiện cho tại mỗi bước là $30\times2=60$. Con số này sẽ tăng lên gấp nhiều lần đối với các bài toán thực tế khi số điểm và số tham số là vài triệu hoặc vài tỷ. Nói cách khác thuật toán này không hiệu quả về mặt tính toán với các bài toán máy học với dữ liệu lớn và phải cập nhật liên tục.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/batch_gradient_descent.png}}
@@ -78,7 +122,7 @@ Giải thuật Batch Gradient Descent sử dụng tất cả các điểm đầu
   	\label{fig:batch_gradient_descent}
 \end{figure} 
 Ngoài ra sau khi đã tìm được nghiêm tối ưu của bài toán. Nếu ta thêm một điểm đầu vào mới vào tập dữ liệu cũ thì việc tính toán phải thực hiện lại từ đầu với toàn bộ điểm đầu vào bao gồm tập điểm đầu vào cũ và điểm mới thêm vào.
-\subsection{Stochastic Gradient Descent}
+\item \emph{Stochastic Gradient Descent}\\
 Khác với Batch Gradient Descent giải thuật Stochastic Gradient Descent chỉ dùng gradient của một điểm ngẫu nhiên để cập nhật lại vector trọng số tại mỗi bước. Sau khi đi qua hết tất cả các điểm của tập đầu vào, thứ tự các điểm sẽ được xáo trộn và giải thuật lại tiếp tục với từng điểm. Mỗi một lần giải thuật Stochastic Gradient Descent tính toán xong với một điểm được gọi là một \emph{iteration} còn với toàn bộ tập điểm thì gọi là một \emph{epoch}. Cũng bài toán hồi quy tuyến tính ở trên nhưng với giải thuật Stochastic Gradient Descent (hình \ref{fig:stochastic_gradient_descent}), ta có thể thấy số iteration mà giải thuật Stochastic Gradient Descent phải thực hiện trong một epoch là 30. Số phép tính của một lần tính toán là 2. 
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/stochastic_gradient_descent.png}}
@@ -87,13 +131,25 @@ Khác với Batch Gradient Descent giải thuật Stochastic Gradient Descent ch
 \end{figure}
 
 Do gradient của 1 điểm chỉ là xấp xỉ gần đúng của trung bình gradient của cả tập điểm nên việc cập nhật tại mỗi iteration sẽ có sai số nhật định, đồng thời các giá trị gradient tính toán được có thể có sư dao động lớn do tập điểm đầu vào thường bị tác động bởi nhiễu. Trên thực tế thì kết quả của giải thuật này có mức độ tối ưu khá tốt và hiệu quả tính toán cao. Sau khi đã hoàn thành tính toán trên tập dữ liệu cũ, nếu như có những điểm mới được thêm vào thì ta chỉ cần chạy giải thuật với các điểm mới mà không cần phải chạy lại giải thuật với toàn bộ các điểm như Batch Gradient Descent.
-\subsection{Mini-batch Gradient Descent}
+\item \emph{Mini-batch Gradient Descent}\\
 Mini-batch Gradient Descent là sự kết hợp của Batch Gradient Descent và Stochastic Gradient Descent. Một mini-batch sẽ có $n$ điểm với $1<n{\leq}N$, $N$ là tống số điểm của tập dữ liệu đầu vào. Việc chia tập điểm ban đầu thành các batch sẽ được thực hiện một cách ngẫu nhiên. Mỗi một lần giải thuật xử lý xong một  batch sẽ là một iteration và sau khi tất cả các batch được xử lý thì sẽ là một epoch. Như vậy $no\_batch=\frac{N}{n}$. Phương pháp này cho kết quả gần với Batch Gradient Descent nhưng không dùng nhiều tài nguyên tính toán như Batch Gradient Descent và không cần phải lặp lại nhiều lần như Stochastic Gradient Descent.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/mini_batch_gradient_descent.png}}
   	\caption{Mini-batch Gradient Descent với bài toán hồi quy tuyến tính. Một batch sẽ gồm ba điểm đầu vào được chọn ngẫu nhiên để cập nhật các vector trọng số $(a,b)$ cho đường hồi quy tại mỗi iteration, với $a$ là độ dốc và $b$ độ sai lệch. Một epoch sẽ gồm mười batch.}
   	\label{fig:mini_batch_gradient_descent}
 \end{figure}
+\end{enumerate}
+\subsection{Gradient Descent cho hàm đa biến}
+Việc áp dụng giải thuật Gradient Descent lên hàm đa biến là một sự mở rộng của ví dụ hàm đơn biến ở trên. Hình \ref{fig:3dgradient_descent} miêu tả mặt phẳng của hàm mất mát trong trường hợp hàm đa biến và quá trình Gradient Descent trên mặt phẳng này. Cho hàm số $f:{{\mathbb{R}}^n}{\rightarrow}{\mathbb{R}}, n{\in}{\mathbb{N}}^*$, ta cần tìm cực tiểu cho $f(X)$ với $X=\begin{pmatrix}x_0 & ... & x_{n-1}\end{pmatrix}, n{\in}{\mathbb{N}}^*$ từ một điểm khởi đầu $X_0$ bằng giải thuật Gradient Descent. Công thức để tính toán cho mỗi bước là:
+\begin{equation}
+	X_{k+1}=X_{k}-{\mu}{{\nabla}_X}f\left(X_{k}\right).
+\end{equation}
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.5]{images/3dgradient_descent.png}}
+  	\caption{Đồ thị mặt phẳng hàm mất mát và Gradient Descent cho hàm nhiều biến.}
+  	\label{fig:3dgradient_descent}
+\end{figure}
+Phương pháp Gradient Descent thường được dùng để cập nhật trọng số cho bài toán hàm mất mát đa biến là Mini-batch Gradient Descent.
 \subsection{Điều kiện dừng của giải thuật}
 Ta đã biết các giải thuật Gradient Descent sẽ cần phải thực hiện rất nhiều vòng lặp tính toán để có thể hội tụ. Tuy nhiên rất khó để nói được khi nào có thể dừng được giải thuật. Trong thực tế có nhiều cách khác nhau được dùng để chọn số bước tính toán:
 \begin{enumerate}
@@ -103,38 +159,8 @@ Ta đã biết các giải thuật Gradient Descent sẽ cần phải thực hi�
 	\item Kiểm tra kết quả của giải thuật để ngừng việc lặp. Việc này cần người thực hiện việc huấn luyên mô hình phải thường xuyên kiểm tra các tham số hiệu năng của giải thuật lên một tập dữ liệu kiểm tra - \emph{validation set} để xem tại thời điểm nào giải thuật có hiệu năng tốt nhất.
 \end{enumerate}
 \section{Sử dụng backpropagation để giải quyết vấn để cập nhật trọng số trong mạng neuron}
-Xét một mô hình mạng neuron (hình \ref{fig:ann})
-\begin{figure}[ht!]
-	\centerline{\includegraphics[scale=0.6]{images/ann.png}}
-  	\caption{Mô hình mạng neuron đơn giản.}
-  	\label{fig:ann}
-\end{figure}
-Quá trình dữ liệu được đưa vào lớp đầu tiên cho đến khi có kết quả ở lớp sau cùng được gọi là quá trình \emph{feed-forward}.
-\begin{align*}
-	a^{(0)}&=x \\
-	z^{(k)}&={\boldsymbol{W}^{(k)T}}{a^{(k-1)}}+{\boldsymbol{b}}^k,k=1,2,..,N \\
-	a^{(l)}&=f^{(k)}\left(z^{(k)}\right),k=1,2,..,N \\
-	\widehat{y}&=a^{(N)}
-\end{align*}
-Ta thấy với mô hình này, hàm mất mát $J\left({\boldsymbol{W}},{\boldsymbol{b}},{\boldsymbol{X}},{\boldsymbol{Y}}\right)$ sẽ phụ thuộc vào tập các ma trận trọng số $\boldsymbol{W}$ và tập các vector bias của mỗi lớp $\boldsymbol{b}$. Việc tính gradient của làm mất mát phụ thuộc vào việc tính các đạo hàm riêng ${\frac{{\partial}J}{{{\partial}\boldsymbol{W}}^{(k)}}}$; ${\frac{{\partial}J}{{\partial}\boldsymbol{b}^{(k)}}}$, ${\forall}k=1,2,..,N$. Đối với bài toán hồi quy tuyến tính thì hàm mất mát là hàm trung bình bình phương sai số (Mean Square Error - MSE), lúc này
-\begin{equation}
-	J
-	\left(
-		{\boldsymbol{W}},{\boldsymbol{b}},{\boldsymbol{X}},{\boldsymbol{Y}}
-	\right)
-	=
-	{
-		{\frac{1}{M}} 
-		{\sum_{i=1}^{(M)}} 
-		{ { {\parallel} y_i - \widehat{y_i} {\parallel} }_2 }^2
-	}
-	=
-	{
-		{\frac{1}{M}} 
-		{\sum_{i=1}^{(M)}} 
-		{ { {\parallel} y_i - {a_i}^{(N)} {\parallel} }_2 }^2
-	}
-\end{equation}
+Hàm mất mát $J\left({\boldsymbol{W}},{\boldsymbol{b}},{\boldsymbol{X}},{\boldsymbol{Y}}\right)$ sẽ phụ thuộc vào tập các ma trận trọng số $\boldsymbol{W}$ và tập các vector bias của mỗi lớp $\boldsymbol{b}$. Việc tính gradient của làm mất mát phụ thuộc vào việc tính các đạo hàm riêng ${\frac{{\partial}J}{{{\partial}\boldsymbol{W}}^{(k)}}}$; ${\frac{{\partial}J}{{\partial}\boldsymbol{b}^{(k)}}}$, ${\forall}k=1,2,..,N$.
+
 Với $N$ là số điểm trong tập điểm đầu vào. Ta nhận thấy để tìm các đạo hàm riêng của $J$ với ${\boldsymbol{W}}$ và ${\boldsymbol{b}}$ trong trường hợp này là rất khó vì phương trình của $J$ không phụ thuộc trực tiếp vào ${\boldsymbol{W}}$ và ${\boldsymbol{b}}$. Để có thể hiện thực các giải thuật thuộc họ Gradient Descent thì phương pháp thường được sử dụng là Backpropagation. Phương pháp này sẽ cập nhật các trọng số theo chiều từ layer cuối cùng đến layer đầu tiên. Đầu tiên giải thuật sẽ tính đạo hàm của hàm mất mát theo ma trận trọng số của lớp cuối cùng.
 \begin{align*}
 	\frac

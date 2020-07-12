@@ -23,16 +23,27 @@ div_tanh = 4*np.exp(-2*x)/np.power(1 + np.exp(-2*x),2)
 relu = np.maximum(0,x)
 # Divergence of ReLU function
 div_relu = np.sign(x)/2+0.5
+
+x_point = np.linspace(-10,10,5)
+# y expected
+y = np.array((1,2,3,4,5))
+# y predicted
+y_predicted = np.array((3,7,4,1,5))
+# loss values
+j = 0.5*np.power(y-y_predicted,2)
   
-#plt.plot(x, sigmoid, 'r', label = "Sigmoid(x)")
-#plt.plot(x, div_sigmoid, 'b', label = "Đạo hàm của Sigmoid(x)")
+# plt.plot(x, sigmoid, 'r', label = "Sigmoid(x)")
+# plt.plot(x, div_sigmoid, 'b', label = "Đạo hàm của Sigmoid(x)")
+# plt.title('Đồ thị hàm Sigmoid và đạo hàm của hàm Sigmoid')
 # plt.plot(x, tanh, 'r', label = "Tanh(x)")
 # plt.plot(x, div_tanh, 'b', label = "Đạo hàm của Tanh(x)")
-plt.plot(x, relu, 'r', label = "ReLU(x)")
-plt.plot(x, div_relu, 'b', label = "Đạo hàm của ReLU(x)")
-plt.xlabel("x")
-# plt.title('Đồ thị hàm Sigmoid và đạo hàm của hàm Sigmoid')
 # plt.title('Đồ thị hàm Tanh và đạo hàm của hàm Tanh')
-plt.title('Đồ thị hàm ReLU và đạo hàm của hàm ReLU')
+# plt.plot(x, relu, 'r', label = "ReLU(x)")
+# plt.plot(x, div_relu, 'b', label = "Đạo hàm của ReLU(x)")
+# plt.title('Đồ thị hàm ReLU và đạo hàm của hàm ReLU')
+plt.plot(x_point, y, '-or', label = "Expected")
+plt.plot(x_point, y_predicted, '-sb', label = "Predicted")
+plt.plot(x_point, j, '-og', label = "Loss")
+plt.xlabel("x")
 plt.legend()
 plt.show() 
