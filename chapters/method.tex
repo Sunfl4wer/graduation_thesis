@@ -1,5 +1,5 @@
 \chapter{Phương pháp tiếp cận}
-
+Trong chương này, người đọc sẽ đi qua các giai đoạn khi xây dựng mô hình máy học để giải quyết bài toán trong luận văn. Bắt đầu từ việc xây dựng tập dữ liệu, sau đó các thao tác cần thiết để huấn luyện mô hình YOLOv3 dùng framework darknet. Cuối cùng là cách sử dụng mô hình đã được huấn luyện vào một chương trình cụ thể.
 \section{Xây dựng tập dữ liệu}
 \subsection{Xác đinh yêu cầu bài toán}
 Bài toán đặt ra là nhận diện người trong khung hình có đang đeo các thiêt bị bảo hộ cá nhân (tiếng Anh: personal protective equipment) hay không. Các thiết bị bảo hộ cá nhân được chọn để nhận diện là: mũ bảo hộ, áo bảo hộ và khẩu trang.
@@ -29,12 +29,12 @@ Do vậy tập dữ liệu sẽ được xậy dựng với các hình ảnh ch�
 \subsection{Thu thập hình ảnh và dán nhãn}
 Tập dữ liệu gồm $11586$ hình trong đó
 \begin{itemize}
-	\item $3541$ hình được lấy từ tập dữ liệu \emph{Hardhat and Safety Vest Image for Object Detection}\cite{ref:7}
-	\item $3174$ hình được lấy từ tập dữ liệu \emph{GDUT-HWD}\cite{ref:8}
+	\item $3541$ hình được lấy từ tập dữ liệu \emph{Hardhat and Safety Vest Image for Object Detection}\cite{john:2020:hardhat}
+	\item $3174$ hình được lấy từ tập dữ liệu \emph{GDUT-HWD}\cite{jixiu:2019:automatic}
 	\item $4871$ hình được lấy từ công cụ tìm kiếm hình ảnh \emph{Google image}
 \end{itemize}
 
-Các hình được dán nhãn bằng phần mềm \emph{LabelImg}\cite{ref:9}. Mỗi hình sẽ có tương ứng một tệp tin văn bản với đuôi \emph{.txt}. Bên trong tệp tin này là các nhãn được đánh dấu bằng định dạng của YOLO với các thông tin gồm \emph{object class id} - đây là id tương ứng với thứ tự của một nhãn trong danh sách các nhãn, \emph{x} và \emph{y} là tọa độ tương đối của bounding box được đánh dấu với hình, \emph{w} và \emph{h} là chiều rộng và chiều cao tương đối của bounding box được đánh dấu với hình, hình \ref{fig:}.
+Các hình được dán nhãn bằng phần mềm \emph{LabelImg}\cite{tzu:2018:labelimg}. Mỗi hình sẽ có tương ứng một tệp tin văn bản với đuôi \emph{.txt}. Bên trong tệp tin này là các nhãn được đánh dấu bằng định dạng của YOLO với các thông tin gồm \emph{object class id} - đây là id tương ứng với thứ tự của một nhãn trong danh sách các nhãn, \emph{x} và \emph{y} là tọa độ tương đối của bounding box được đánh dấu với hình, \emph{w} và \emph{h} là chiều rộng và chiều cao tương đối của bounding box được đánh dấu với hình, hình \ref{fig:}.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/yolo_annotation.png}}
   	\caption{Định dạng nhãn của YOLO.}
@@ -50,8 +50,8 @@ Tập dữ liệu này có tổng cộng $195771$ vật thể được dán nhã
 
 Việc chênh lệch lớn về số lượng các bounding box giữa các class cụ thể là các class \emph{Not wearing} có số lượng lớn hơn rất nhiều so với các class \emph{Wearing} tương ứng sẽ giúp bộ nhận dạng nhạy hơn với các trường hợp vi phạm trang phục bảo vệ lao động. Tuy có sự chênh lệch lớn nhưng số lượng các bounding box của mỗi class là đủ lớn để mô hình có thể học được các đặc trưng cần thiết để có thể phân loại class tốt cho một bounding box.
 
-\section{Huấn luyên mạng YOLOv3 sử dụng framework Darknet\cite{ref:10}}
-Darknet là một framework được xây dựng bởi Joseph Redmon cũng là cha đẻ của YOLO, framework này được viết bằng C/C++ và được dùng để huấn luyện mô hình YOLOv3 với tâp dữ liệu riêng cho từng vấn đề. Kiến trúc của Darknet đã được đề cập ở phần lý thuyết và sẽ không được nhắc lai ở chương này.
+\section{Huấn luyên mạng YOLOv3 sử dụng framework Darknet}
+Darknet\cite{alexey:2020:darknet} là một framework được xây dựng bởi Joseph Redmon cũng là cha đẻ của YOLO, framework này được viết bằng C/C++ và được dùng để huấn luyện mô hình YOLOv3 với tâp dữ liệu riêng cho từng vấn đề. Kiến trúc của Darknet đã được đề cập ở phần lý thuyết và sẽ không được nhắc lai ở chương này.
 
 Mô hình YOLOv3 trong luận văn này được huấn luyện trên $Google Colab$, về bản chất môi trường trên $Google Colab$ là môi trường máy ảo chạy Linux với các thông số tại thời điểm thực hiện luận văn: 
 \begin{itemize}
@@ -537,3 +537,5 @@ start = time.time()
 }
 
 \end{enumerate}
+
+Chương \emph{Phương pháp tiếp cận} đã trình bày các bước để ứng dụng mô hình mạng neuron tích chập YOLOv3 để giải quyết bài toán nhận diện trang phục bảo hộ lao động. Bắt đầu từ việc xây dựng tập dữ liệu theo format của YOLO, sau đó huấn luyện sử dụng framework darknet, sau cùng là sử dụng mô hình đã huấn luyện được vào chương trình Python. Tuy nhiên, đối với các bài toán ứng dụng trí tuệ nhân tạo, việc đánh giá các thông số hiệu năng của mô hình là vô cùng quan trọng, do vậy chương sau sẽ được dành để đánh giá các thông số hiệu năng của mô hình đã được huấn luyện.
