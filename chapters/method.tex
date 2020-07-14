@@ -2,14 +2,14 @@
 Trong chương này, người đọc sẽ đi qua các giai đoạn khi xây dựng mô hình máy học để giải quyết bài toán trong luận văn. Bắt đầu từ việc xây dựng tập dữ liệu, sau đó các thao tác cần thiết để huấn luyện mô hình YOLOv3 dùng framework darknet. Cuối cùng là cách sử dụng mô hình đã được huấn luyện vào một chương trình cụ thể.
 \section{Xây dựng tập dữ liệu}
 \subsection{Xác đinh yêu cầu bài toán}
-Bài toán đặt ra là nhận diện người trong khung hình có đang đeo các thiêt bị bảo hộ cá nhân (tiếng Anh: personal protective equipment) hay không. Các thiết bị bảo hộ cá nhân được chọn để nhận diện là: mũ bảo hộ, áo bảo hộ và khẩu trang.
+Bài toán đặt ra là nhận diện người trong khung hình có đang đeo các thiết bị bảo hộ cá nhân (tiếng Anh: personal protective equipment) hay không. Các thiết bị bảo hộ cá nhân được chọn để nhận diện là: mũ bảo hộ, áo bảo hộ và khẩu trang.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.3]{images/ppe.png}}
   	\caption{(1) Mũ bảo hộ, (2) Áo bảo hộ, (3) Khẩu trang}
   	\label{fig:ppe}
 \end{figure}
 
-Mục tiêu đầu ra của hệ thống là có thể xác định được vị trí đầu người và thân người và phân loại việc sử dụng các thiêt bị bảo hộ cá nhận đối với các vật thể đã được phát hiện. Ứng với mỗi thiết bị, vật thể sẽ được phân loại thành hai trạng thái, một là \emph{Wearing} - \emph{Mặc}, hai là \emph{Not wearing} - \emph{Không mặc}.
+Mục tiêu đầu ra của hệ thống là có thể xác định được vị trí đầu người và thân người và phân loại việc sử dụng các thiết bị bảo hộ cá nhận đối với các vật thể đã được phát hiện. Ứng với mỗi thiết bị, vật thể sẽ được phân loại thành hai trạng thái, một là \emph{Wearing} - \emph{Mặc}, hai là \emph{Not wearing} - \emph{Không mặc}.
 \begin{itemize}
 	\item Wearing a hardhat
 	\item Not wearing a hardhat
@@ -20,12 +20,12 @@ Mục tiêu đầu ra của hệ thống là có thể xác định được v�
 \end{itemize}
 Hình \ref{fig:expected_output} minh họa đầu vào đầu ra mong muốn của hệ thống.
 \begin{figure}[ht!]
-	\centerline{\includegraphics[scale=0.3]{images/expected_output.png}}
+	\centerline{\includegraphics[scale=0.4]{images/expected_output.png}}
   	\caption{Kết quả nhận dạng mong muốn.}
   	\label{fig:expected_output}
 \end{figure}
 
-Do vậy tập dữ liệu sẽ được xậy dựng với các hình ảnh chứa con người và các nhãn được đánh đúng với mong muốn của đầu ra.
+Do vậy tập dữ liệu sẽ được xây dựng với các hình ảnh chứa con người và các nhãn được đánh đúng với mong muốn của đầu ra.
 \subsection{Thu thập hình ảnh và dán nhãn}
 Tập dữ liệu gồm $11586$ hình trong đó
 \begin{itemize}
@@ -73,7 +73,13 @@ Mô hình YOLOv3 trong luận văn này được huấn luyện trên $Google Co
 }
 
 	Sau đó ta chọn Clone $\rightarrow$ Download ZIP và tiến hành tải thư mục về, sau khi tải xong ta tiến hành giải nén vào một thư mục mà ta tạo sẵn.
-	\item Ta chép tệp tin \emph{yolov3.cfg} trong thư mục \emph{cfg} ra thư mục làm việc \emph{darknet} và chỉnh sửa như sau. Đầu tiên ta sẽ sửa các giá trị \emph{batch} là số hình trong một mini-batch mà ta muốn dùng để huấn luyện, \emph{subdivision} là thông số để chia nhỏ một mini-batch để đảm bảo mô hình có thể chạy trên các tài nguyên GPU khác nhau, \emph{width} và \emph{height} là chiều rộng và chiều cao của ảnh đầu vào, các ảnh có kích thước khác nhau sẽ được resize lại kích thước này trước khi được đưa vào để huấn luyện. \emph{max{\_}batches} là tổng số batch mà mô hình sẽ chạy qua, đây còn được gọi là số \emph{iteration}. \emph{steps} sẽ có giá trị lần lượt băng $80\%$ và $90\%$ của \emph{max{\_}batches}.
+	\item Ta chép tệp tin \emph{yolov3.cfg} trong thư mục \emph{cfg} ra thư mục làm việc \emph{darknet} và chỉnh sửa như sau.
+	\begin{itemize}
+	\item Đầu tiên ta sẽ sửa các giá trị \emph{batch} là số hình trong một mini-batch mà ta muốn dùng để huấn luyện, \emph{subdivision} là thông số để chia nhỏ một mini-batch để đảm bảo mô hình có thể chạy trên các tài nguyên GPU khác nhau, do tập dữ liệu gồm nhiều hình có kích thước khác nhau nên trong quá trình huấn luyện nếu để \emph{subdivision} nhỏ thì rất dễ gặp lỗi \emph{out of memory} do đó sau khi thử nhiều giá trị khác nhau như $16, 32, 64$ thì $64$ cho phép việc training diễn ra tối nhất. Đổi lại thì thời gian training sẽ lâu hơn do không thể đưa nhiều hình vào cùng môt lúc để huấn luyện.	
+	\item \emph{width} và \emph{height} là chiều rộng và chiều cao của ảnh đầu vào, các ảnh có kích thước khác nhau sẽ được resize lại kích thước này trước khi được đưa vào để huấn luyện. Việc lựa chọn giá trị \emph{width} và \emph{height} sẽ ảnh hưởng tới việc học của mô hình, nếu như tài nguyên GPU là lớn thì các giá trị của \emph{width} và \emph{height} nên chọn càng lớn càng tốt, tuy nhiên trong bài toán này để đảm bảo hình ảnh sau khi resize không mất quá nhiều thông tin, đồng thời đảm bảo việc huấn luyện có thể thực hiện được trên tài nguyên GPU được cung cấp nên \emph{width} và \emph{height} được chọn là $608$.
+	\item Việc lựa chon \emph{max{\_}batches} là tổng số batch mà mô hình sẽ chạy qua, đây còn được gọi là số \emph{iteration}, ta có thể chọn \emph{max{\_}batches} rất lớn và dựa vào \emph{mAP} hoăc \emph{average loss} để dừng giải thuật, nhưng sau khi huấn luyện mô hình một vài lần cho thấy \emph{max{\_}batches} nên xấp xỉ lớn hơn số class nhân $2000$ nhưng không nhỏ hơn số lượng hình trong tập dữ liệu huấn luyện. \emph{steps} sẽ có giá trị lần lượt băng $80\%$ và $90\%$ của \emph{max{\_}batches}.
+	\end{itemize}
+
 
 \noindent\fbox{
     \parbox{350pt}{
@@ -103,7 +109,7 @@ Mô hình YOLOv3 trong luận văn này được huấn luyện trên $Google Co
     }
 }
 
-Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằng sáu, chính là số class của bài toán. Đồng thời ta sẽ sửa số $filters$ của lớp convolution ngay phía trên theo công thức $3 \times (5+C)$ với $C$ là số class, khi $C=6$ ta có $filters=33$.
+Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằng sáu, chính là số class của bài toán. Đồng thời ta sẽ sửa số $filters$ của lớp convolution ngay phía trên theo công thức $3 \times (5+C)$ với $C$ là số class, $3$ là số scale mà mô hình sẽ dự đoán, $5$ gồm $4$ tham số tọa độ của bounding box và $1$ tham số dự đoán sự tồn tại của vật thể trong bounding box đó, khi $C=6$ ta có $filters=33$.
 
 \noindent\fbox{
     \parbox{350pt}{
@@ -126,7 +132,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	}
 }
 
-	\item Sửa các thông số ở đầu của tệp \emph{Makefile} như sau.
+	\item Sửa các thông số ở đầu của tệp \emph{Makefile} như sau. OpenCV và GPU sẽ được sử dụng trong quá trình huấn luyện và dự đoán nên hai giá trị này sẽ được cài đặt là $1$.
 
 \noindent\fbox{
     \parbox{350pt}{
@@ -200,7 +206,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	}
 }
 
-	\item Vào đường dẫn này để tải tệp tin trọng số cho các lớp tích chập được huấn luyên từ mạng Imagenet. Sau đó sao chép tệp tin vừa tải về vào thư mục \emph{darknet}
+	\item Vào đường dẫn này để tải tệp tin trọng số cho các lớp tích chập được huấn luyện từ mạng Imagenet. Sau đó sao chép tệp tin vừa tải về vào thư mục \emph{darknet}. Tệp tin trọng số \emph{darknet53.conv.74} đã được huấn luyện qua hàng triệu hình nên các trọng số ở các lớp tích chập đã được tối ưu để trích xuất đặc trưng từ hình ảnh. Do vậy ta sẽ tái sử dụng các trọng số ở các lớp tích chập của từ tệp tin trọng số này và chỉ huấn luyện các trọng số ở lớp kết nối đầy đủ cho bài toán của luận văn. Đây là cách làm rất phổ biến vì cho phép kế thừa hiệu năng nhận diện rất tốt của YOLO vào nhiều bài toán nhận diện khác nhau.
 	
 \noindent\fbox{
     \parbox{350pt}{
@@ -236,6 +242,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	!./darknet detector train obj.data yolov3.cfg darknet53.conv.74
 	}
 }	
+
 	Đối với các lần huấn luyện sau ta chỉ cần dùng tệp tin \emph{yolov3{\_}last.weights} để huấn luyện tiếp mà không cần huấn luyện lại từ đầu.
 	
 \noindent\fbox{
@@ -257,7 +264,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 
 \section{Sử dụng mô hình YOLOv3 để nhận diện trên camera hoặc video}
 
-Sau khi việc huấn luyên đã hoàn thành, ta sẽ dùng tệp tin trọng số để tiến hành nhận diện trên video hoặc camera. Để làm được điều này ta sẽ viết một chương trình Python có sơ đồ khối như hình \ref{fig:flow_chart}.
+Sau khi việc huấn luyện đã hoàn thành, ta sẽ dùng tệp tin trọng số để tiến hành nhận diện trên video hoặc camera. Để làm được điều này ta sẽ viết một chương trình Python có sơ đồ khối như hình \ref{fig:flow_chart}.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/flow_chart.png}}
   	\caption{Sơ đồ khối chương trình Python để nhận dạng trên video hoặc webcam.}
@@ -269,7 +276,7 @@ Sau khi việc huấn luyên đã hoàn thành, ta sẽ dùng tệp tin trọng 
 	
 	\item Sau đó ta sẽ dùng hàm đọc video của OpenCV để đọc dữ liệu từ webcam. Đầu tiên ta sẽ khởi tạo một đối tượng đại diện cho webcam \emph{cap = VideoCapture(0)}. Sau đó ta sẽ đọc từng frame từ đối tượng vừa được khởi tạo \emph{ret, image = cap.read()} với \emph{image} là biến chứa một frame, \emph{ret} sẽ có giá trị \emph{True} nếu có frame được đọc từ đầu vào và \emph{False} nếu không có frame được đọc từ đầu vào.
 	
-	\item Để tiến hành nhận dạng trên hình, ta sẽ dùng các câu lện sau.
+	\item Để tiến hành nhận dạng trên hình, ta sẽ dùng các câu lệnh sau.
 
 \noindent\fbox{
     \parbox{350pt}{
@@ -279,7 +286,7 @@ Sau khi việc huấn luyên đã hoàn thành, ta sẽ dùng tệp tin trọng 
 	}
 }
 
-	Dòng lênh đầu tiên sẽ resize hình về kích thước $(604, 604)$, sau đó từng pixel trong hình sẽ được trừ cho $(0, 0, 0)$ và chia cho \emph{scale}. \emph{swapRB=True} sẽ hoán đổi vị trí hai kênh đỏ và xanh dương trong tensor của hình. \emph{crop=False} sẽ không crop hình sau khi resize. Giả sử kênh màu đỏ của hình sau khi được resize có giá trị là $R$, \emph{scale}$=\sigma$, giá trị để trừ là ${\mu}_{red}$, giá trị của kênh màu đỏ sau khi đi qua hàm \emph{blob} sẽ là
+	Dòng lênh đầu tiên sẽ resize hình về kích thước $(604, 604)$, hiện nay các camera quan sát thường có độ phân giải 2MP với kích thước khung hình $1920 \times 1080$ nên việc resize về $604 \times 604$ sẽ không làm mất đi các đặc trưng quan trọng và cho phép giảm thiểu số lượng tính toán để việc dự đoán trên hình nhanh hơn và tốn ít tài nguyên phần cứng hơn. Sau đó từng pixel trong hình sẽ được trừ cho $(0, 0, 0)$ và chia cho \emph{scale}. \emph{swapRB=True} sẽ hoán đổi vị trí hai kênh đỏ và xanh dương trong tensor của hình. \emph{crop=False} sẽ không crop hình sau khi resize. Giả sử kênh màu đỏ của hình sau khi được resize có giá trị là $R$, \emph{scale}$=\sigma$, giá trị để trừ là ${\mu}_{red}$, giá trị của kênh màu đỏ sau khi đi qua hàm \emph{blob} sẽ là
 \begin{equation}
 	\frac{R-{\mu}_{red}}{\sigma}
 \end{equation} 
