@@ -34,14 +34,14 @@ Tập dữ liệu gồm $11586$ hình trong đó
 	\item $4871$ hình được lấy từ công cụ tìm kiếm hình ảnh \emph{Google image}
 \end{itemize}
 
-Các hình được dán nhãn bằng phần mềm \emph{LabelImg}\cite{tzu:2018:labelimg}. Mỗi hình sẽ có tương ứng một tệp tin văn bản với đuôi \emph{.txt}. Bên trong tệp tin này là các nhãn được đánh dấu bằng định dạng của YOLO với các thông tin gồm \emph{object class id} - đây là id tương ứng với thứ tự của một nhãn trong danh sách các nhãn, \emph{x} và \emph{y} là tọa độ tương đối của bounding box được đánh dấu với hình, \emph{w} và \emph{h} là chiều rộng và chiều cao tương đối của bounding box được đánh dấu với hình, hình \ref{fig:}.
+Các hình được dán nhãn bằng phần mềm \emph{LabelImg}\cite{tzu:2018:labelimg}. Mỗi hình sẽ có tương ứng một tệp tin văn bản với đuôi \emph{.txt}. Bên trong tệp tin này là các nhãn được đánh dấu bằng định dạng của YOLO với các thông tin gồm \emph{object class id} - đây là id tương ứng với thứ tự của một nhãn trong danh sách các nhãn, \emph{x} và \emph{y} là tọa độ tương đối của bounding box được đánh dấu với hình, \emph{w} và \emph{h} là chiều rộng và chiều cao tương đối của bounding box được đánh dấu với hình, hình \ref{fig:yolo_annotation}.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.6]{images/yolo_annotation.png}}
   	\caption{Định dạng nhãn của YOLO.}
   	\label{fig:yolo_annotation}
 \end{figure}
 
-Tập dữ liệu này có tổng cộng $195771$ vật thể được dán nhãn với thống kê số vật thể của từng class được thể hiện trong hình \ref{fig:object_count}.
+Tập dữ liệu này có tổng cộng \textbf{195771} vật thể được dán nhãn với thống kê số vật thể của từng class được thể hiện trong hình \ref{fig:object_count}.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.5]{images/object_count.png}}
   	\caption{Thống kê số lượng vật thể ứng với từng class. Wearing a hardhat: $27565$, Not wearing a hardhat: $45888$, Wearing a safety vest: $10264$, Not wearing a safety vest: $52996$, Wearing a mask:$12557$, Not wearing a mask: $46501$.}
@@ -163,7 +163,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 
 	\item Sao chép tập dữ liệu gồm hình ảnh và tệp tin dán nhãn vào đường dẫn \emph{./data/objects}
 
-	\item Tạo hai tệp text, \emph{train.txt} và \emph{val.txt} chứa đường dẫn đến các hình ảnh. \emph{train.txt} sẽ được dùng để huấn luyện còn \emph{val.txt} sẽ được dùng để validate mô hình trong quá trình huấn luyện. Việc chia tập dữ liệu được thực hiện ngẫu nhiên. Có $900$ hình được dùng để validate và $10686$ hình được dùng để huấn luyện. Việc chia này được thực hiện bằng một chương trình Python.
+	\item Tạo hai tệp text, \emph{train.txt} và \emph{val.txt} chứa đường dẫn đến các hình ảnh. \emph{train.txt} sẽ được dùng để huấn luyện còn \emph{val.txt} sẽ được dùng để validate mô hình trong quá trình huấn luyện. Việc chia tập dữ liệu được thực hiện ngẫu nhiên. Có \textbf{900} hình được dùng để validate và \textbf{10686} hình được dùng để huấn luyện. Việc chia này được thực hiện bằng một chương trình Python.
 
 \noindent\fbox{
     \parbox{350pt}{
