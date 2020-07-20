@@ -63,15 +63,12 @@ Phạm vi của luận văn là tiến hành nhận dạng trên các video trí
 \section{Phương pháp nghiên cứu}
 Các giai đoạn trong quá trình nghiên cứu và hoàn thiện luận văn:
 \begin{enumerate}
-	\item Tìm hiểu các mô hình nhận diện đang được nghiên cứu và sử dung.
-	\item Chọn mô hình phù hợp, tìm hiểu lý thuyết.
-	\item Xây dựng tập dữ liệu phù hợp cho bài toán.
-	\item Huấn luyện mô hình nhận diện.
-	\item Đánh giá các tham số hiệu năng của mô hình nhận diên đã xây dựng.
-	\item Xây dựng hệ thống sử dụng mô hình nhận diện để đưa ra cảnh báo.
-	\item Đánh giá khả năng hoạt động của hệ thống.
+	\item Tìm hiều về CNN, mô hình YOLOv3 và cách ứng dụng của mô hình này vào việc nhận diện trang thiết bị bảo hộ lao động.
+	\item Xây dựng tập dữ liệu gồm các hình ảnh chứa người đội nón bảo hộ, mặc áo phản quang và đeo khẩu trang cùng với tệp tin nhãn dán của từng hình.
+	\item Huấn luyện mô hình nhận diện trên framework darknet và viết chương trình Python sử dụng mô hình đã huấn luyện để nhận diện.
+	\item Đánh giá các thông số hiệu năng của mô hình đối với các thiết bị bảo hộ trong các trường hợp thực tế, kết luận và viết luận văn.
 \end{enumerate}
-Trong đó các giai đoạn 3, 4 và 5 được thực hiện luân phiên và nhiều lần để cải thiện hiệu năng của mô hình nhận diện. YOLOv3 được chọn để làm mô hình nhận diện vì đây là một trong số các bộ nhận diện có hiệu năng cao trong thời gian thực, đã được sử dụng và đánh giá trên nhiều tập dữ liệu khác nhau.
+YOLOv3 được chọn để làm mô hình nhận diện vì đây là một trong số các bộ nhận diện có hiệu năng cao trong thời gian thực, đã được sử dụng và đánh giá trên nhiều tập dữ liệu khác nhau.
 
 \section{Cấu trúc luận văn}
 Luận văn này bao gồm 5 chương. Chương 1 là chương mở đầu, giới thiệu bao quát về vấn đề, mục tiêu, phạm vi và phương pháp nghiên cứu luận văn. Chương 2 sẽ cung cấp những lý thuyết về các khái niệm được sử dụng trong luận văn. Chương 3 cho người đọc biết về cách tập dữ liệu được xây dựng, cách mô hình YOLOv3 được huấn luyện sử dụng framework darknet và cách xây dựng hệ thống sử dụng mô hình nhận diện. Chương 4 sẽ chứa những thông số đánh giá hiệu năng của bộ nhận diện và hệ thống trong các trường hợp khác nhau. Cuối cùng, trong chương 5 sẽ là các nhận xét về các kết quả đạt được và kết luận.

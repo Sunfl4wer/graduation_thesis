@@ -31,7 +31,11 @@ y = np.array((1,2,3,4,5))
 y_predicted = np.array((3,7,4,1,5))
 # loss values
 j = 0.5*np.power(y-y_predicted,2)
-  
+
+labels = ["Wearing a hardhat", "Not wearing a hardhat", "Wearing a safety vest", "Not wearing a safety vest", "Wearing a mask", "Not wearing a mask"]
+m_3_precision = [0.7297297297297297, 0.8783783783783784, 0.9324324324324325, 0.7432432432432432, 0.8175675675675675, 0.3716216216216216]
+m_3_recall = [0.8558558558558558, 0.6621621621621622, 0.8513513513513513, 0.7162162162162162, 0.47747747747747743, 0.6486486486486487]
+x_pos = np.arange(len(labels))
 # plt.plot(x, sigmoid, 'r', label = "Sigmoid(x)")
 # plt.plot(x, div_sigmoid, 'b', label = "Đạo hàm của Sigmoid(x)")
 # plt.title('Đồ thị hàm Sigmoid và đạo hàm của hàm Sigmoid')
@@ -41,9 +45,7 @@ j = 0.5*np.power(y-y_predicted,2)
 # plt.plot(x, relu, 'r', label = "ReLU(x)")
 # plt.plot(x, div_relu, 'b', label = "Đạo hàm của ReLU(x)")
 # plt.title('Đồ thị hàm ReLU và đạo hàm của hàm ReLU')
-plt.plot(x_point, y, '-or', label = "Expected")
-plt.plot(x_point, y_predicted, '-sb', label = "Predicted")
-plt.plot(x_point, j, '-og', label = "Loss")
+plt.plot(x_pos, m_3_precision, '-or', label = "Expected")
 plt.xlabel("x")
 plt.legend()
 plt.show() 
