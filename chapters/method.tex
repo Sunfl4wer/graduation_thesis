@@ -1,6 +1,6 @@
 \chapter{Xây dựng tập dữ liệu, huấn luyện và sử dụng mô hình YOLOv3 cho bài toán nhận diện thiết bị bảo hộ cá nhân}
 Trong chương này, người đọc sẽ đi qua các giai đoạn khi xây dựng mô hình máy học để giải quyết bài toán trong luận văn. Bắt đầu từ việc xây dựng tập dữ liệu, sau đó các thao tác cần thiết để huấn luyện mô hình YOLOv3 dùng framework darknet. Cuối cùng là cách sử dụng mô hình đã được huấn luyện vào một chương trình cụ thể.
-\section{Xây dựng tập dữ liệu}
+\section{Xây dựng tập dữ liệu cho bài toán nhận diện thiết bị bảo hộ cá nhân}
 \subsection{Xác đinh yêu cầu bài toán}
 Bài toán đặt ra là nhận diện người trong khung hình có đang đeo các thiết bị bảo hộ cá nhân (tiếng Anh: personal protective equipment) hay không. Các thiết bị bảo hộ cá nhân được chọn để nhận diện là: mũ bảo hộ, áo bảo hộ và khẩu trang.
 \begin{figure}[ht!]
@@ -50,7 +50,7 @@ Tập dữ liệu này có tổng cộng \textbf{195771} vật thể được d�
 
 Việc chênh lệch lớn về số lượng các bounding box giữa các class cụ thể là các class \emph{Not wearing} có số lượng lớn hơn rất nhiều so với các class \emph{Wearing} tương ứng sẽ giúp bộ nhận dạng nhạy hơn với các trường hợp vi phạm trang phục bảo vệ lao động. Tuy có sự chênh lệch lớn nhưng số lượng các bounding box của mỗi class là đủ lớn để mô hình có thể học được các đặc trưng cần thiết để có thể phân loại class tốt cho một bounding box.
 
-\section{Huấn luyên mạng YOLOv3 sử dụng framework Darknet}
+\section{Huấn luyên mạng YOLOv3 sử dụng framework Darknet với tập dữ liệu riêng}
 Darknet\cite{alexey:2020:darknet} là một framework được xây dựng bởi Joseph Redmon cũng là cha đẻ của YOLO, framework này được viết bằng C/C++ và được dùng để huấn luyện mô hình YOLOv3 với tâp dữ liệu riêng cho từng vấn đề. Kiến trúc của Darknet đã được đề cập ở phần lý thuyết và sẽ không được nhắc lai ở chương này.
 
 Mô hình YOLOv3 trong luận văn này được huấn luyện trên $Google Colab$, về bản chất môi trường trên $Google Colab$ là môi trường máy ảo chạy Linux với các thông số tại thời điểm thực hiện luận văn: 
@@ -172,8 +172,8 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 		import cv2\\
 		import random\\
 \\
-		basenames = \text{[os.path.basename(x) for x in \\
-		\tab glob.glob(".$/$data$/$objects$/$*.jpg")]}\\
+		basenames = \\		
+		\tab \text{[os.path.basename(x) for x in glob.glob(".$/$data$/$objects$/$*.jpg")]}\\
 		basenamesNotEmpty = []\\
 
 		for name in basenames:\\
@@ -262,7 +262,7 @@ Sau đó tại các dòng $610, 696$ và $783$ ta sẽ thay số $classes$ bằn
 	Ta có thể thay \emph{yolov3{\_}1000.weights} bằng tệp tin trọng số mà ta muốn kiểm tra.
 \end{enumerate}
 
-\section{Sử dụng mô hình YOLOv3 để nhận diện trên camera hoặc video}
+\section{Sử dụng Python và mô hình mạng học sâu đã huấn luyện để nhận diện việc sử dụng trang thiết bị bảo hộ cá nhân trên camera hoặc video}
 
 Sau khi việc huấn luyện đã hoàn thành, ta sẽ dùng tệp tin trọng số để tiến hành nhận diện trên video hoặc camera. Để làm được điều này ta sẽ viết một chương trình Python có sơ đồ khối như hình \ref{fig:flow_chart}.
 \begin{figure}[ht!]

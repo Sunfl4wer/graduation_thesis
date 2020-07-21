@@ -1,4 +1,4 @@
-\chapter{Đánh giá các thông số hiệu năng của mô hình nhận diện}
+\chapter{Đánh giá các thông số hiệu năng của mô hình nhận diện trang thiết bị bảo hộ}
 Mô hình được huấn luyện trong ba ngày với $12000$ iteration. Trong quá trình huấn luyện, việc tính toán các thông số hiệu năng của mô hình được thực hiện với mỗi $1000$ iteration trên tập dữ liệu validation. 
 Nhắc lại về cách tính các thông số hiệu năng:
 \begin{itemize}
@@ -28,7 +28,7 @@ Tập dữ liệu validation gồm $900$ hình được chia một cách ngẫu 
   	\label{fig:validation_set}
 \end{figure}
 
-Các thông số được tính toán gồm: precision, recall và mean average precision \ref{fig:precision_recall_map}.
+Các thông số được tính toán gồm: precision, recall và mean average precision \ref{fig:precision_recall_map}. Ta thấy rằng với số lượng dữ liệu từ tập huấn luyện, mô hình cho hiệu năng tốt nhất trên tập validation ở $10000$ iteration. Khi tham khảo ở các diễn đàn trên Internet cũng như từ những người trực tiếp xây dựng framework darket, số lượng iteration tối đa thường sẽ được gợi ý là số class $C$ nhân với $2000$. Đối với mô hình này số iteration lý tưởng là $12000$. Tuy nhiên dựa vào kết quả trên tập validation ta thấy rằng các thông số hiệu năng của mô hình tại $10000$ iteration cao hơn rất nhiều so với tại $12000$. Do vậy trong quá trình huấn luyện các mô hình mạng học sâu thì phương pháp dừng tốt nhất vẫn là thường xuyên kiểm tra hiệu năng của mô hình trên một tập validation để phát hiện điểm tối ưu.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.5]{images/precision_recall_map.png}}
   	\caption{Precision - màu đỏ, Recall - màu xanh dương, Mean Average Precision - màu xanh lá. Các thông số được tính toán mỗi 1000 iteration trên tập dữ liệu validation.}
@@ -74,12 +74,12 @@ Ngoài ra sẽ có một chủ thể sử dụng nón vải màu trắng, gần 
 \emph{Kết quả}: Đồ thị precision ở hình \ref{fig:3_6_9_precision} và recall ở hình \ref{fig:3_6_9_recall} cho thấy mô hình hoạt động tốt nhất ở khoảng cách $6$m. Các thông số precision và recall của hầu hết các class ở $6$m đều trội hơn so với ở $3$m và $9$m. Việc precision cao sẽ giúp các dự đoán của mô hình tại $6$m chính xác hơn so với tại $3$m và $9$m. Recall cao nói lên rằng mô hình sẽ nhạy hơn và có thể phát hiện được nhiều vật thể hơn trong một khung hình tại khoảng cách $6$m. Tại class \emph{Not wearing a hardhat} có sự dao động về thông số hiệu năng và kết quả dự đoán ở khoảng cách $6$m vẫn chưa là tốt nhất điều này có thể xuất phát từ việc các bounding box của class \emph{Not wearing a hardhat} trong tập dữ liệu huấn luyện có kích thước gần tương đồng với các bounding box của vật thể cùng class ở khoảng cách $9$m.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.5]{images/3_6_9_precision.png}}
-  	\caption{Precision của các class tại các khoảng cách {\color{red} 3m}, {\color{blue} $6$m}, {\color{black} $9$m}. Cao hơn nghĩa là tốt hơn.}
+  	\caption{Precision của các class tại các khoảng cách 3m - màu đỏ, 6m - màu xanh và 9m - màu đen. Cao hơn nghĩa là tốt hơn.}
   	\label{fig:3_6_9_precision}
 \end{figure}
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.5]{images/3_6_9_recall.png}}
-  	\caption{Recall của các class tại các khoảng cách {\color{red} 3m}, {\color{blue} $6$m}, {\color{black} $9$m}. Cao hơn nghĩa là tốt hơn.}
+  	\caption{Recall của các class tại các khoảng cách 3m - màu đỏ, 6m - màu xanh và 9m - màu đen. Cao hơn nghĩa là tốt hơn.}
   	\label{fig:3_6_9_recall}
 \end{figure}
 
@@ -115,7 +115,7 @@ Ngoài ra, mô hình cũng có thể phân biệt tốt giữa nón vải trắn
   	\label{fig:good_hh_9m_zoom}
 \end{figure}
 
-\subsubsection{Thử nghiệm khả năng nhận diện của mô hình vơi các trường hợp sử dụng sai cách các thiết bị bảo hộ}
+\subsubsection{Thử nghiệm khả năng nhận diện của mô hình với các trường hợp sử dụng sai cách các thiết bị bảo hộ}
 Việc sử dụng các thiết bị bảo hộ sai cách cũng nguy hiểm giống như việc không sử dụng thiết bị bảo hộ, do đó không chỉ cần phải phân biệt giữa có sử dụng hay không mà mô hình còn phải có thể phân biệt được giữa sử dụng đúng và sai trang thiết bị bảo hộ. Trong trường hợp này, chủ thể sẽ đeo khẩu trang sai cách hoặc mặc áo phản quang sai cách để kiểm tra khả năng nhận diện của mô hình.
 
 \emph{Trường hợp 1}: Việc đeo khẩu trang sai cách sẽ được thực hiện thông qua hai trường hợp, một là đeo khẩu trang hở mũi - hình \ref{fig:bad_mask_nose}, hai là đeo khẩu trang hở miệng - hình \ref{fig:bad_mask_mouth}. Các kết quả dự đoán được thực hiện trên hình ở khoảng cách $3$m.
@@ -162,4 +162,24 @@ Việc sử dụng các thiết bị bảo hộ sai cách cũng nguy hiểm gi�
 	\centerline{\includegraphics[scale=0.18]{images/bad_sv_predict_4.jpg}}
   	\caption{Kết quả dự đoán không tốt với hai chủ thể mặc áo bảo hộ sai cách ở khoảng cách 3m.}
   	\label{fig:bad_sv_pred_3}
+\end{figure}
+
+\subsubsection{Thử nghiệm khả năng nhận diện của mô hình khi chủ thể đứng sau vật cản}
+Trong thử nghiệm này, hai chủ thể sẽ đứng sau một vật cản là cánh cửa sắt như trên hình \ref{fig:obstacle}, các thông số precision và recall của mô hình sẽ được tính toán dựa trên kết quả dự đoán của mô hình trên các hình chụp ở khoảng cách $3$m và $6$m.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.25]{images/obstacle.JPG}}
+  	\caption{Hai chủ thể đứng sau vật cản ở khoảng cách 3m.}
+  	\label{fig:obstacle}
+\end{figure}
+
+\emph{Kết quả}: Các giá trị precision - hình \ref{fig:3_6_precision} và recall - hình \ref{fig:3_6_recall} của mô hình khi dự đoán với chủ thể đứng sau vật cản là rất thấp tại khoảng cách 3m và 6m. Điều này chứng tỏ mô hình không thể dùng để nhận diện trong các trường hợp bị vướng vật cản.
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.5]{images/3_6_precision.png}}
+  	\caption{Precision của các class khi các chủ thể đứng sau vật cản và cách camera tại các khoảng cách 3m - màu đỏ và 6m - màu xanh.}
+  	\label{fig:3_6_precision}
+\end{figure}
+\begin{figure}[ht!]
+	\centerline{\includegraphics[scale=0.5]{images/3_6_recall.png}}
+  	\caption{Recall của các class khi các chủ thể đứng sau vật cản và cách camera tại các khoảng cách 3m - màu đỏ và 6m - màu xanh.}
+  	\label{fig:3_6_recall}
 \end{figure}

@@ -1,11 +1,11 @@
-\chapter{Kết luận và hướng phát triển}
-\section{Kết luận}
-Luận văn này đã xây dựng thành công hệ thống giám sát việc sử dụng thiết bị bảo hộ cá nhân trên cơ sở lý thuyết mạng neuron tích chập. Hệ thống sử dụng mô hình YOLOv3 được huấn luyện từ đầu trên tập dữ liệu tự xây dựng với tổng cộng $11586$ hình với nhiều khung cảnh và thời gian khác nhau để đảm bảo mô hình không quá quen thuộc với một ngữ cảnh nhất định. Mô hình có khả năng dự đoán tương đối tốt với độ chính xác $86\%$ và có thể được ứng dụng trong thực tế với vai trò hỗ trợ việc giám sát sử dụng thiết bị bảo hộ lao động.
-
-Tuy nhiên mô hình vẫn còn một số khuyết điểm cần phải giải quyết:
+\chapter{Kết luận về khả năng nhận diện việc sử dụng trang thiết bị bảo hộ của mô hình và hướng phát triển}
+\section{Kết luận về khả năng nhận diện việc sử dụng trang thiết bị bảo hộ của mô hình}
+Luận văn này đã xây dựng thành công hệ thống giám sát việc sử dụng thiết bị bảo hộ cá nhân trên cơ sở lý thuyết mạng neuron tích chập. Hệ thống sử dụng mô hình YOLOv3 được huấn luyện từ đầu trên tập dữ liệu tự xây dựng với tổng cộng $11586$ hình với nhiều khung cảnh và thời gian khác nhau để đảm bảo mô hình không quá quen thuộc với một ngữ cảnh nhất định. Sau khi thử nghiêm mô hình trong thực tế có thể rút ra được các kết luận sau về khả năng nhận diện của mô hình:
 \begin{itemize}
-	\item Cần khả năng xử lý lớn để có thể chạy trong thời gian thực trong thực tế đặc biệt là với các hệ thống có nhiều camera.
-	\item Độ chính xác $86\%$ là chưa đủ cao so với ngưỡng chấp nhận $95\%$ để nhưng sản phẩm ứng trí tuệ nhân tạo để có thể dùng được trong thực tế.
+	\item Mô hình có khả năng dự đoán tương đối tốt với độ chính xác trung bình giữa các class xấp xỉ $84\%$ và độ nhạy xấp xỉ $86\%$ tại khoảng cách $6$m. Khi khoảng cách tăng dần hoặc giảm dần thì khả năng nhận diện của mô hình bắt đầu giảm.
+	\item Mô hình có thể được dùng để phát hiện các trường hợp sử dụng sai nón bảo hộ, áo bảo hộ hoặc khẩu trang. Tuy nhiên khả năng nhận diện của mô hình trong các trường hợp này còn hạn chế và phụ thuộc nhiều vào góc quay của camera và tư thế của chủ thể trong khung hình.
+	\item Nếu như giữa chủ thể và camera có vật cản che đi một phần của chủ thể thì mô hình không thể được dùng để nhận diện được trong các trường hợp này.
+	\item Tốc độ xử lý của mô hình còn chậm, mô hình mất $0.712$ giây để dự đoán trên một hình với máy tính có CPU Intel Core i5-6300U @ 2.40GHz, RAM 8.00 GB. Khi thực hiện nhận diện trên webcam của máy tính thì mô hình chạy với tốc độ là $0.4$ frame/s.
 \end{itemize}
 
 \section{Hướng phát triển}
@@ -13,4 +13,5 @@ Vấn đề đảm bảo an toàn lao động luôn nhận được sự chú ý
 \begin{itemize}
 	\item Tăng số lượng ảnh trong tập dữ liệu với nhiều background khác nhau để mô hình có thể học được nhiều trường hợp đặc biệt hơn.
 	\item Dùng các kiến trúc mạng tích chập mới hơn như YOLOv4 để tăng độ chính xác.
+	\item Xây dựng hệ thống phần cứng mang tính tối ưu cho mạng neuron tích chập để có thể chạy mô hình trong thời gian thực.
 \end{itemize}

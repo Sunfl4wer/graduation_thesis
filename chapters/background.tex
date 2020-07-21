@@ -89,13 +89,7 @@ Sau đó với mỗi giá trị đầu vào $z^{(k)}_i$ của một neuron thứ
 		{ { {\parallel} y_i - {a_i}^{(N)} {\parallel} }_2 }^2
 	}.
 \end{equation}
-Xét bài toán phân loại nhị phân với $M=2$, trên hình \ref{fig:loss_function} ta thấy rằng nếu mô hình càng đưa ra dự đoán chính xác thì $J$ sẽ càng nhỏ do đó mục tiêu sau cùng của một mạng neuron nhân tạo trong quá trình học là tối thiểu hóa các giá trị của hàm mất mát với các điểm đầu vào khác nhau.
-\begin{figure}[ht!]
-	\centerline{\includegraphics[scale=0.4]{images/loss_function.png}}
-  	\caption{Giá trị hàm mất mát theo với các trường hợp dự đoán khác nhau.}
-  	\label{fig:loss_function}
-\end{figure}
-Do $J$ phụ thuộc vào các trọng số $w^{(k)}_ij$ và các bias $b^{(k)}_j$ nên sau khi đánh giá được mức độ chính xác của dự đoán, mạng neuron nhân tạo sẽ tiến hành điều chỉnh các giá trị này nhằm làm giảm giá trị $J$ trong các lần tính sau. Phương pháp được dùng để thực hiện việc tối thiểu hàm mất mát là Gradient Descent.
+Giả sử ta đang xét tới bài toán phân loại nhị phân với $M=2$, đầu ra mong muốn của ta là $\left({a^{(N)}}_1,{a^{(N)}}_2\right) = (0.9,0.1)$. Lần thứ nhất mô hình dự đoán cho ra hai kết quả đầu ra là $(y_1,y_2)=(0.6,0.4)$ lúc này $J=\frac{1}{2}\left( {{{\parallel} 0.6 - 0.9 {\parallel}}_2}^2 + {{{\parallel} 0.4 - 0.1 {\parallel}}_2}^2 \right) = 0.09$. Lần thứ hai mô hình dự đoán cho ra hai kết quả đầu ra là $(y_1,y_2)=(0.85,0.15)$ lúc này $J=\frac{1}{2}\left( {{{\parallel} 0.85 - 0.9 {\parallel}}_2}^2 + {{{\parallel} 0.15 - 0.1 {\parallel}}_2}^2 \right) = 0.0025$. Ta thấy rằng nếu như dự đoán của mô hình càng gần kết quả mong muốn thì giá trị của $J$ sẽ càng nhỏ. Việc học của mô hình máy học về bản chất chính là việc tối thiểu hóa các giá trị đầu ra của hàm mất mát. Do $J$ phụ thuộc vào các trọng số $w^{(k)}_ij$ và các bias $b^{(k)}_j$ nên sau khi đánh giá được mức độ chính xác của dự đoán, mạng neuron nhân tạo sẽ tiến hành điều chỉnh các giá trị này nhằm làm giảm giá trị $J$ trong các lần tính sau. Phương pháp được dùng để thực hiện việc tối thiểu hàm mất mát là Gradient Descent.
 \section{Tối ưu hàm mất mát bằng Gradient Descent}
 Để có thể hiểu cách mà Gradient Descent\cite[p.158-174]{tiep:2017} được dùng để tối thiểu hàm mất mát của một mô hình mạng neuron nhân tạo. Ta sẽ bắt đầu bằng một ví dụ đơn giản về Gradient Descent với một hàm số đơn biến, sau đó mở rộng ra cho hàm số đa biến.
 \subsection{Một ví dụ đơn giản về Gradient Descent}
@@ -603,11 +597,11 @@ Với tỉ lệ cuối, mô hình như ở trên được lặp đi lặp lại 
 
 Ban đầu sẽ có chín bounding box: $(10 \times 13),(16 \times 30),(33 \times 23),(30 \times 61),(62 \times 45),(59 \times 119),(116 \times 90),(156 \times 198),(373 \times 326)$. Các bounding box này sẽ được chia vào ba tỉ lệ bằng giải thuật k-means. Các bounding box này sẽ được dùng để dự đoán ở các tỉ lệ tương ứng. Ảnh đầu vào sẽ được downsample với các stride bằng $32$, $16$ và $8$ cho từng tỉ lệ. Nhờ vậy YOLOv3 có thể dự đoán được các vật thể nhỏ rất tốt.
 
-YOLOv3 sử dụng kiến trúc mạng kết hợp giữa YOLOv2, Darknet-19 và mạng residual. Các lớp tích chập có kích thước $3 \times 3$, $1 \times 1$ và có thêm các liên kết tắt (tiếng Anh: short cut). Có tất cả 53 lớp tích chập được dùng nên kiến trúc này được gọi là Darknet-53.
+YOLOv3 sử dụng kiến trúc mạng kết hợp giữa YOLOv2, Darknet-19 và mạng residual. Các lớp tích chập có kích thước $3 \times 3$, $1 \times 1$ và có thêm các liên kết tắt (tiếng Anh: short cut). Trên hình \ref{fig:yolov3_architechture} thể hiện kiến trúc Yolov3 có tất cả 53 lớp tích chập được dùng nên kiến trúc này được gọi là Darknet-53.
 \begin{figure}[ht!]
 	\centerline{\includegraphics[scale=0.8]{images/yolov3_architecture.jpg}}
   	\caption{Kiến trúc mạng Darknet-53.}
-  	\label{fig:bounding_box_prediction}
+  	\label{fig:yolov3_architechture}
 \end{figure}
 Kiến trúc này cho khả năng nhận diện tốt hơn Darknet-19 và hiệu năng cao hơn ResNet-101 hoặc ResNet-152 bảng \ref{table:darknet-53_performance}.
 \begin{center}
